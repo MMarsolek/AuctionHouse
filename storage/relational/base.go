@@ -11,13 +11,6 @@ import (
 	"modernc.org/sqlite"
 )
 
-const errorStringUniqueConstraintFailed = "UNIQUE constraint failed"
-
-func init() {
-	sqlite.ErrorCodeString[1299] = "NOT NULL constraint failed"
-	sqlite.ErrorCodeString[2067] = errorStringUniqueConstraintFailed
-}
-
 type baseClient struct {
 	db bun.IDB
 }
@@ -77,8 +70,8 @@ func (bc *baseClient) Create(ctx context.Context, model interface{}) error {
 
 	_, err = bc.db.NewInsert().Model(model).Exec(ctx)
 	if err != nil {
-		if errors.Cause(err).Error() == errorStringUniqueConstraintFailed {
-			// This check is bad and I should feel bad
+		var sqliteErr *sqlite.Error
+		if errors.As(err, &sqliteErr) && sqliteErr.Code() == 2067 {
 			return errors.Wrap(storage.ErrEntityAlreadyExists, "entity already exists")
 		}
 

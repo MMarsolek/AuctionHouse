@@ -39,7 +39,8 @@ func (uc *userClient) Delete(ctx context.Context, username string) error {
 }
 
 func (uc *userClient) Update(ctx context.Context, user *model.User) error {
-	err := uc.baseClient.Update(ctx, user, "username", user.Username)
+	dbModel := UserToDBModel(user)
+	err := uc.baseClient.Update(ctx, dbModel, "username", user.Username)
 	if err != nil {
 		return errors.Wrapf(err, "unable to update user %s", user.Username)
 	}

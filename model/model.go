@@ -14,7 +14,7 @@ type AuctionItem struct {
 }
 
 type AuctionBid struct {
-	CurrentBid int
-	Bidder     *User
-	Item       *AuctionItem
+	BidAmount int
+	Bidder    *User
+	Item      *AuctionItem
 }

@@ -29,8 +29,7 @@ func (ts *userClientTestSuite) SetupSuite() {
 	ts.db = bun.NewDB(rawDB, sqlitedialect.New())
 	ts.client = &userClient{baseClient{ts.db}}
 
-	_, err = ts.db.NewCreateTable().Model(&User{}).Exec(ts.ctx)
-	ts.Require().NoError(err)
+	ts.Require().NoError(CreateSchema(ts.ctx, ts.db))
 }
 
 func (ts *userClientTestSuite) SetupTest() {
@@ -138,6 +137,7 @@ func (ts *userClientTestSuite) TestUpdateModifiesNonZeroFields() {
 	}
 	newDisplayName := "updated display name"
 	ts.Require().NoError(ts.client.Create(ts.ctx, &user))
+
 	ts.Require().NoError(ts.client.Update(ts.ctx, &model.User{
 		Username:    user.Username,
 		DisplayName: newDisplayName,

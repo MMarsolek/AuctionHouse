@@ -11,7 +11,7 @@ import (
 )
 
 type BaseDBModel struct {
-	ID        int64     `bun:",pk"`
+	ID        uint64    `bun:",pk"`
 	CreatedAt time.Time `bun:",nullzero,notnull"`
 	UpdatedAt time.Time `bun:",nullzero,notnull"`
 }
@@ -108,21 +108,25 @@ func AuctionItemToDBModel(auctionItem *model.AuctionItem) *AuctionItem {
 	}
 }
 
+func getAuctionItemNameID(name string) string {
+	return strings.ToLower(name)
+}
+
 type AuctionBid struct {
 	BaseDBModel
-	CurrentBid int          `bun:",notnull"`
-	Bidder     *User        `bun:"rel:has-one,join:bidder_id=id"`
-	Item       *AuctionItem `bun:"rel:has-one,join:item_id=id"`
+	BidAmount int          `bun:",notnull"`
+	Bidder    *User        `bun:"rel:has-one,join:bidder_id=id"`
+	Item      *AuctionItem `bun:"rel:has-one,join:item_id=id"`
 
-	BidderID int64
-	ItemID   int64
+	BidderID uint64 `bun:",notnull"`
+	ItemID   uint64 `bun:",notnull"`
 }
 
 func (ab *AuctionBid) ToModel() *model.AuctionBid {
 	return &model.AuctionBid{
-		CurrentBid: ab.CurrentBid,
-		Bidder:     ab.Bidder.ToModel(),
-		Item:       ab.Item.ToModel(),
+		BidAmount: ab.BidAmount,
+		Bidder:    ab.Bidder.ToModel(),
+		Item:      ab.Item.ToModel(),
 	}
 }
 
@@ -132,6 +136,7 @@ func createIndex(ctx context.Context, query *bun.CreateTableQuery, model interfa
 		Model(model).
 		Index(indexName).
 		Column(columnName).
+		IfNotExists().
 		Exec(ctx)
 
 	if err != nil {
