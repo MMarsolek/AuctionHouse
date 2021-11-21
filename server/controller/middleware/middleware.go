@@ -27,7 +27,7 @@ func LoggingFields(next http.Handler) http.Handler {
 		r = r.WithContext(log.WithFields(r.Context(),
 			"route", r.URL.Path,
 			"routeTemplate", routeTemplate,
-			"verb", r.Method,
+			"method", r.Method,
 		))
 
 		log.Info(r.Context(), "web request")

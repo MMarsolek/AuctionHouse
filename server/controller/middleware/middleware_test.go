@@ -31,7 +31,7 @@ func TestLoggingFieldsAddsFieldsToLogs(t *testing.T) {
 		fieldsSeen := map[string]bool{
 			"route":         false,
 			"routeTemplate": false,
-			"verb":          false,
+			"method":        false,
 		}
 		for _, field := range log.Context {
 			fieldsSeen[field.Key] = true
