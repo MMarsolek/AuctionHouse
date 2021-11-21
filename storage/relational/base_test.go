@@ -14,7 +14,7 @@ import (
 )
 
 type testModel struct {
-	BaseDBModel
+	baseDBModel
 	OtherPrimaryKey string `bun:",unique"`
 	Value           int
 }
@@ -53,11 +53,11 @@ func (ts *baseClientTestSuite) TestCreateDoesNotErrorOnNewEntry() {
 		OtherPrimaryKey: "first",
 		Value:           10,
 	}
-	ts.Require().NoError(ts.client.Create(ts.ctx, &model))
+	ts.Require().NoError(ts.client.create(ts.ctx, &model))
 }
 
 func (ts *baseClientTestSuite) TestCreateErrorsWhenNonPointerPassed() {
-	ts.Require().Error(ts.client.Create(ts.ctx, testModel{}))
+	ts.Require().Error(ts.client.create(ts.ctx, testModel{}))
 }
 
 func (ts *baseClientTestSuite) TestGetReturnsExistingItem() {
@@ -66,9 +66,9 @@ func (ts *baseClientTestSuite) TestGetReturnsExistingItem() {
 		Value:           5,
 	}
 
-	ts.Require().NoError(ts.client.Create(ts.ctx, &model))
+	ts.Require().NoError(ts.client.create(ts.ctx, &model))
 	var retrievedModel testModel
-	ts.Require().NoError(ts.client.Get(ts.ctx, &retrievedModel, "other_primary_key", model.OtherPrimaryKey))
+	ts.Require().NoError(ts.client.get(ts.ctx, &retrievedModel, "other_primary_key", model.OtherPrimaryKey))
 
 	ts.Require().EqualValues(model.ID, retrievedModel.ID)
 	ts.Require().EqualValues(model.OtherPrimaryKey, retrievedModel.OtherPrimaryKey)
@@ -79,18 +79,53 @@ func (ts *baseClientTestSuite) TestGetReturnsExistingItem() {
 
 func (ts *baseClientTestSuite) TestGetReturnsErrEntityNotFoundWhenNotFound() {
 	var retrievedModel testModel
-	err := ts.client.Get(ts.ctx, &retrievedModel, "other_primary_key", "not exists")
+	err := ts.client.get(ts.ctx, &retrievedModel, "other_primary_key", "not exists")
 	ts.Require().Error(err)
 	ts.Require().ErrorIs(err, storage.ErrEntityNotFound)
 }
 
 func (ts *baseClientTestSuite) TestGetErrorsWhenNonPointerPassed() {
-	ts.Require().Error(ts.client.Get(ts.ctx, testModel{}, "", ""))
+	ts.Require().Error(ts.client.get(ts.ctx, testModel{}, "", ""))
+}
+
+func (ts *baseClientTestSuite) TestGetAllReturnsAllItems() {
+	models := []*testModel{
+		{
+			OtherPrimaryKey: "first",
+			Value:           10,
+		},
+		{
+			OtherPrimaryKey: "second",
+			Value:           -5,
+		},
+	}
+
+	for _, model := range models {
+		ts.Require().NoError(ts.client.create(ts.ctx, model))
+	}
+
+	var retrievedModels []*testModel
+	ts.Require().NoError(ts.client.getAll(ts.ctx, &retrievedModels))
+	ts.Require().Len(retrievedModels, len(models))
+	ts.Require().EqualValues(models[0].OtherPrimaryKey, retrievedModels[0].OtherPrimaryKey)
+	ts.Require().EqualValues(models[0].Value, retrievedModels[0].Value)
+	ts.Require().EqualValues(models[1].OtherPrimaryKey, retrievedModels[1].OtherPrimaryKey)
+	ts.Require().EqualValues(models[1].Value, retrievedModels[1].Value)
+}
+
+func (ts *baseClientTestSuite) TestGetAllDoesNotErrorOnEmpty() {
+	var retrievedModels []*testModel
+	ts.Require().NoError(ts.client.getAll(ts.ctx, &retrievedModels))
+	ts.Require().Empty(retrievedModels)
+}
+
+func (ts *baseClientTestSuite) TestGetAllErrorsWhenNonPointerPassed() {
+	ts.Require().Error(ts.client.getAll(ts.ctx, nil))
 }
 
 func (ts *baseClientTestSuite) TestDeleteReturnsErrEntityNotFoundWhenNotFound() {
 	var retrievedModel testModel
-	err := ts.client.Delete(ts.ctx, &retrievedModel, "other_primary_key", "not exists")
+	err := ts.client.delete(ts.ctx, &retrievedModel, "other_primary_key", "not exists")
 	ts.Require().Error(err)
 	ts.Require().ErrorIs(err, storage.ErrEntityNotFound)
 }
@@ -100,16 +135,16 @@ func (ts *baseClientTestSuite) TestDeleteRemovesEntityFromTable() {
 		OtherPrimaryKey: "second",
 		Value:           -1,
 	}
-	ts.Require().NoError(ts.client.Create(ts.ctx, &model))
-	ts.Require().NoError(ts.client.Delete(ts.ctx, &model, "id", model.ID))
+	ts.Require().NoError(ts.client.create(ts.ctx, &model))
+	ts.Require().NoError(ts.client.delete(ts.ctx, &model, "id", model.ID))
 	var retrievedModel testModel
-	err := ts.client.Get(ts.ctx, &retrievedModel, "id", model.ID)
+	err := ts.client.get(ts.ctx, &retrievedModel, "id", model.ID)
 	ts.Require().Error(err)
 	ts.Require().ErrorIs(err, storage.ErrEntityNotFound)
 }
 
 func (ts *baseClientTestSuite) TestDeleteErrorsWhenNonPointerPassed() {
-	ts.Require().Error(ts.client.Delete(ts.ctx, testModel{}, "", ""))
+	ts.Require().Error(ts.client.delete(ts.ctx, testModel{}, "", ""))
 }
 
 func (ts *baseClientTestSuite) TestUpdateModifiesSelectedColumns() {
@@ -117,19 +152,19 @@ func (ts *baseClientTestSuite) TestUpdateModifiesSelectedColumns() {
 		OtherPrimaryKey: "unchanged",
 		Value:           42,
 	}
-	ts.Require().NoError(ts.client.Create(ts.ctx, &model))
+	ts.Require().NoError(ts.client.create(ts.ctx, &model))
 
 	updatedModel := testModel{
-		BaseDBModel: BaseDBModel{
+		baseDBModel: baseDBModel{
 			ID: model.ID,
 		},
 		OtherPrimaryKey: "changed",
 		Value:           10,
 	}
 
-	ts.Require().NoError(ts.client.Update(ts.ctx, &updatedModel, "id", model.ID, "value"))
+	ts.Require().NoError(ts.client.update(ts.ctx, &updatedModel, "id", model.ID, "value"))
 	var retrievedModel testModel
-	ts.Require().NoError(ts.client.Get(ts.ctx, &retrievedModel, "id", model.ID))
+	ts.Require().NoError(ts.client.get(ts.ctx, &retrievedModel, "id", model.ID))
 
 	ts.Require().EqualValues(model.ID, retrievedModel.ID)
 	ts.Require().EqualValues(updatedModel.OtherPrimaryKey, retrievedModel.OtherPrimaryKey)
@@ -138,5 +173,5 @@ func (ts *baseClientTestSuite) TestUpdateModifiesSelectedColumns() {
 }
 
 func (ts *baseClientTestSuite) TestUpdateErrorsWhenNonPointerPassed() {
-	ts.Require().Error(ts.client.Update(ts.ctx, testModel{}, "", ""))
+	ts.Require().Error(ts.client.update(ts.ctx, testModel{}, "", ""))
 }

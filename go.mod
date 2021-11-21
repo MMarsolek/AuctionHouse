@@ -3,6 +3,8 @@ module github.com/MMarsolek/AuctionHouse
 go 1.17
 
 require (
+	github.com/gbrlsnchs/jwt/v3 v3.0.1
+	github.com/gorilla/mux v1.8.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
@@ -10,6 +12,7 @@ require (
 	github.com/uptrace/bun/dialect/sqlitedialect v1.0.17
 	github.com/uptrace/bun/driver/sqliteshim v1.0.17
 	go.uber.org/zap v1.19.1
+	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa
 	modernc.org/sqlite v1.14.1
 )
 
@@ -19,11 +22,13 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
+	github.com/magefile/mage v1.9.0 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-sqlite3 v1.14.9 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.4 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect

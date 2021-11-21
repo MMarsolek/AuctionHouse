@@ -97,6 +97,14 @@ func (ts *auctionBidClientTestSuite) TestGetHighestBidReturnsHighestBidForItem()
 	ts.Require().EqualValues(10, secondItemBid.BidAmount)
 }
 
+func (ts *auctionBidClientTestSuite) TestGetHighestBidReturnsEntityNotFoundWhenNoHighestBid() {
+	_, items := ts.createTestAssets()
+
+	_, err := ts.client.GetHighestBid(ts.ctx, items[0])
+	ts.Require().Error(err)
+	ts.Require().ErrorIs(err, storage.ErrEntityNotFound)
+}
+
 func (ts *auctionBidClientTestSuite) TestGetAllHighestBidReturnsHighestBidForEachItem() {
 	users, items := ts.createTestAssets()
 

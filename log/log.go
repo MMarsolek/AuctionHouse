@@ -14,6 +14,16 @@ func WithLogger(ctx context.Context, logger *zap.SugaredLogger) context.Context 
 	return context.WithValue(ctx, logKey{}, logger)
 }
 
+// WithFields stores a logger that has fields included in every log.
+func WithFields(ctx context.Context, fields ...interface{}) context.Context {
+	logger := getLogger(ctx)
+	if logger != nil {
+		return context.WithValue(ctx, logKey{}, logger.With(fields...))
+	}
+
+	return ctx
+}
+
 // Debug will write a debug log if a logger is found within the context.
 func Debug(ctx context.Context, msg string, keysAndValues ...interface{}) {
 	logger := getLogger(ctx)

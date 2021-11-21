@@ -10,23 +10,23 @@ import (
 	"github.com/uptrace/bun"
 )
 
-type BaseDBModel struct {
+type baseDBModel struct {
 	ID        uint64    `bun:",pk"`
 	CreatedAt time.Time `bun:",nullzero,notnull"`
 	UpdatedAt time.Time `bun:",nullzero,notnull"`
 }
 
-func (model *BaseDBModel) updateTime() {
+func (model *baseDBModel) updateTime() {
 	model.UpdatedAt = time.Now().UTC()
 }
 
-func (model *BaseDBModel) updateCreateTime() {
+func (model *baseDBModel) updateCreateTime() {
 	model.CreatedAt = time.Now().UTC()
 }
 
-var _ bun.BeforeAppendModelHook = (*BaseDBModel)(nil)
+var _ bun.BeforeAppendModelHook = (*baseDBModel)(nil)
 
-func (*BaseDBModel) BeforeAppendModel(ctx context.Context, query bun.Query) error {
+func (*baseDBModel) BeforeAppendModel(ctx context.Context, query bun.Query) error {
 	type timeUpdater interface {
 		updateTime()
 		updateCreateTime()
@@ -45,8 +45,9 @@ func (*BaseDBModel) BeforeAppendModel(ctx context.Context, query bun.Query) erro
 	return nil
 }
 
+// User represents the model.User as it exists in storage.
 type User struct {
-	BaseDBModel
+	baseDBModel
 	Username       string                `bun:",notnull,unique"`
 	DisplayName    string                `bun:",notnull"`
 	HashedPassword string                `bun:",notnull"`
@@ -59,6 +60,7 @@ func (u *User) AfterCreateTable(ctx context.Context, query *bun.CreateTableQuery
 	return createIndex(ctx, query, (*User)(nil), "username_idx", "username")
 }
 
+// ToModel transforms the User into a model.User.
 func (u *User) ToModel() *model.User {
 	return &model.User{
 		Username:       u.Username,
@@ -68,6 +70,7 @@ func (u *User) ToModel() *model.User {
 	}
 }
 
+// UserToDBModel transforms the model.User into a User.
 func UserToDBModel(user *model.User) *User {
 	return &User{
 		Username:       user.Username,
@@ -77,8 +80,9 @@ func UserToDBModel(user *model.User) *User {
 	}
 }
 
+// AuctionItem represents the model.AuctionItem as it exists in storage.
 type AuctionItem struct {
-	BaseDBModel
+	baseDBModel
 	NameID      string `bun:"name_id,notnull,unique"`
 	DisplayName string `bun:",notnull"`
 	ImageRef    string `bun:",notnull"`
@@ -91,6 +95,7 @@ func (ai *AuctionItem) AfterCreateTable(ctx context.Context, query *bun.CreateTa
 	return createIndex(ctx, query, (*AuctionItem)(nil), "name_id_idx", "name_id")
 }
 
+// ToModel transforms the AuctionItem into a model.AuctionItem.
 func (ai *AuctionItem) ToModel() *model.AuctionItem {
 	return &model.AuctionItem{
 		Name:        ai.DisplayName,
@@ -99,9 +104,10 @@ func (ai *AuctionItem) ToModel() *model.AuctionItem {
 	}
 }
 
+// AuctionItemToDBModel transforms the model.AuctionItem into an AuctionItem.
 func AuctionItemToDBModel(auctionItem *model.AuctionItem) *AuctionItem {
 	return &AuctionItem{
-		NameID:      strings.ToLower(auctionItem.Name),
+		NameID:      getAuctionItemNameID(auctionItem.Name),
 		DisplayName: auctionItem.Name,
 		ImageRef:    auctionItem.ImageRef,
 		Description: auctionItem.Description,
@@ -112,8 +118,9 @@ func getAuctionItemNameID(name string) string {
 	return strings.ToLower(name)
 }
 
+// AuctionBid represents the model.AuctionBid as it exists in storage.
 type AuctionBid struct {
-	BaseDBModel
+	baseDBModel
 	BidAmount int          `bun:",notnull"`
 	Bidder    *User        `bun:"rel:has-one,join:bidder_id=id"`
 	Item      *AuctionItem `bun:"rel:has-one,join:item_id=id"`
@@ -122,6 +129,7 @@ type AuctionBid struct {
 	ItemID   uint64 `bun:",notnull"`
 }
 
+// ToModel transforms the AuctionBid into a model.AuctionBid.
 func (ab *AuctionBid) ToModel() *model.AuctionBid {
 	return &model.AuctionBid{
 		BidAmount: ab.BidAmount,

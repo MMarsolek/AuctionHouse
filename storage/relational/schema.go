@@ -45,7 +45,7 @@ func CreateSchema(ctx context.Context, db bun.IDB) error {
 		FROM auction_bids
 		WHERE item_id = NEW.item_id
 		GROUP BY bidder_id, item_id
-		HAVING MAX(bid_amount) > NEW.bid_amount;
+		HAVING MAX(bid_amount) >= NEW.bid_amount;
 	END;`)
 
 	if err != nil {

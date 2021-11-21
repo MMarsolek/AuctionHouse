@@ -30,6 +30,12 @@ func TestErrorOutputsErrorLevel(t *testing.T) {
 	Error(ctx, "my message")
 }
 
+func TestWithFieldsAddsFieldsToSubsequentCalls(t *testing.T) {
+	ctx := WithLogger(context.Background(), getTestLogger(t, zap.InfoLevel))
+	ctx = WithFields(ctx, "hello", "world")
+	Info(ctx, "my message")
+}
+
 func TestGetLoggerReturnsNilOnContextWithNoLogger(t *testing.T) {
 	require.Nil(t, getLogger(context.Background()))
 }

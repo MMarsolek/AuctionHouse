@@ -15,7 +15,7 @@ type baseClient struct {
 	db bun.IDB
 }
 
-func (bc *baseClient) Get(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}) error {
+func (bc *baseClient) get(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}) error {
 	err := bc.validatePointer(model)
 	if err != nil {
 		return errors.Wrap(err, "unable to validate pointer")
@@ -30,7 +30,21 @@ func (bc *baseClient) Get(ctx context.Context, model interface{}, primaryCol str
 	return nil
 }
 
-func (bc *baseClient) Delete(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}) error {
+func (bc *baseClient) getAll(ctx context.Context, model interface{}) error {
+	err := bc.validatePointer(model)
+	if err != nil {
+		return errors.Wrap(err, "unable to validate pointer")
+	}
+
+	err = bc.db.NewSelect().Model(model).Scan(ctx)
+	if err != nil {
+		return errors.Wrapf(err, "unable to retrieve all entities")
+	}
+
+	return nil
+}
+
+func (bc *baseClient) delete(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}) error {
 	err := bc.validatePointer(model)
 	if err != nil {
 		return errors.Wrap(err, "unable to validate pointer")
@@ -50,7 +64,7 @@ func (bc *baseClient) Delete(ctx context.Context, model interface{}, primaryCol 
 	return nil
 }
 
-func (bc *baseClient) Update(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}, columns ...string) error {
+func (bc *baseClient) update(ctx context.Context, model interface{}, primaryCol string, primaryKey interface{}, columns ...string) error {
 	err := bc.validatePointer(model)
 	if err != nil {
 		return errors.Wrap(err, "unable to validate pointer")
@@ -62,7 +76,7 @@ func (bc *baseClient) Update(ctx context.Context, model interface{}, primaryCol 
 	return nil
 }
 
-func (bc *baseClient) Create(ctx context.Context, model interface{}) error {
+func (bc *baseClient) create(ctx context.Context, model interface{}) error {
 	err := bc.validatePointer(model)
 	if err != nil {
 		return errors.Wrap(err, "unable to validate pointer")
@@ -81,9 +95,12 @@ func (bc *baseClient) Create(ctx context.Context, model interface{}) error {
 }
 
 func (bc *baseClient) validatePointer(ptr interface{}) error {
+	if ptr == nil {
+		return errors.New("nil pointer")
+	}
 	ptrType := reflect.TypeOf(ptr)
 	if ptrType.Kind() != reflect.Ptr {
-		return errors.Errorf("expected pointer but got %s", ptrType.Kind())
+		return errors.Errorf("expected pointer or slice but got %s", ptrType.Kind())
 	}
 
 	return nil

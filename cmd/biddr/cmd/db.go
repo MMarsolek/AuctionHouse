@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"strings"
@@ -9,28 +8,13 @@ import (
 	"github.com/MMarsolek/AuctionHouse/storage/relational"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/dialect/sqlitedialect"
-	"github.com/uptrace/bun/driver/sqliteshim"
 )
 
-const databaseFileName = "biddr.db"
-
-var bunDB *bun.DB
-
 var dbCmd = &cobra.Command{
-	Use:   "db",
-	Short: "Database related sub commands",
-	Long:  "Database related sub commands",
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		rawDB, err := sql.Open(sqliteshim.ShimName, fmt.Sprintf("file:%s?cache=shared", databaseFileName))
-		if err != nil {
-			return errors.Wrap(err, "unable to open database")
-		}
-
-		bunDB = bun.NewDB(rawDB, sqlitedialect.New())
-		return nil
-	},
+	Use:               "db",
+	Short:             "Database related sub commands",
+	Long:              "Database related sub commands",
+	PersistentPreRunE: bootstrapDB,
 }
 
 var dbInitCmd = &cobra.Command{

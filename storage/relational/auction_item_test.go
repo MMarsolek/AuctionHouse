@@ -104,6 +104,41 @@ func (ts *auctionItemClientTestSuite) TestGetReturnsErrorWhenItemDoesNotExist() 
 	ts.Require().ErrorIs(err, storage.ErrEntityNotFound)
 }
 
+func (ts *auctionItemClientTestSuite) TestGetAllRetrievesAllItems() {
+	items := []*model.AuctionItem{
+		{
+			Name:        "foo",
+			ImageRef:    "https://notreal2.com",
+			Description: "my description",
+		},
+		{
+			Name:        "bar",
+			ImageRef:    "https://notreal1.com",
+			Description: "my other description",
+		},
+	}
+
+	for _, item := range items {
+		ts.Require().NoError(ts.client.Create(ts.ctx, item))
+	}
+
+	allItems, err := ts.client.GetAll(ts.ctx)
+	ts.Require().NoError(err)
+	ts.Require().Len(allItems, len(items))
+
+	for i, item := range items {
+		ts.Require().EqualValues(item.Name, allItems[i].Name)
+		ts.Require().EqualValues(item.ImageRef, allItems[i].ImageRef)
+		ts.Require().EqualValues(item.Description, allItems[i].Description)
+	}
+}
+
+func (ts *auctionItemClientTestSuite) TestGetAllReturnsEmptyArrayWhenNoItems() {
+	allItems, err := ts.client.GetAll(ts.ctx)
+	ts.Require().NoError(err)
+	ts.Require().Empty(allItems)
+}
+
 func (ts *auctionItemClientTestSuite) TestDeleteRemovesItem() {
 	item := model.AuctionItem{
 		Name:        "foo",

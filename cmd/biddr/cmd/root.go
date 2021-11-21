@@ -2,12 +2,22 @@ package cmd
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
 	"os"
 
 	"github.com/MMarsolek/AuctionHouse/log"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/sqlitedialect"
+	"github.com/uptrace/bun/driver/sqliteshim"
 	"go.uber.org/zap"
 )
+
+const databaseFileName = "biddr.db"
+
+var bunDB *bun.DB
 
 var rootCmd = &cobra.Command{
 	Use:           "biddr",
@@ -33,4 +43,14 @@ func Execute(defaultCommand string) {
 		rootCmd.Printf("%+v\n", err)
 		os.Exit(1)
 	}
+}
+
+func bootstrapDB(cmd *cobra.Command, args []string) error {
+	rawDB, err := sql.Open(sqliteshim.ShimName, fmt.Sprintf("file:%s?cache=shared", databaseFileName))
+	if err != nil {
+		return errors.Wrap(err, "unable to open database")
+	}
+
+	bunDB = bun.NewDB(rawDB, sqlitedialect.New())
+	return nil
 }
