@@ -6,6 +6,11 @@ import (
 	"github.com/pkg/errors"
 )
 
+// PermissionLevel
+//
+// Defines the level of permissions a user has. Certain routes can only be used by specific permissions.
+//
+// swagger:model PermissionLevel
 type PermissionLevel string
 
 const (

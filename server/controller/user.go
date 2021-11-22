@@ -16,6 +16,11 @@ import (
 )
 
 type (
+	getUserResponse struct {
+		Username    string                `json:"username"`
+		DisplayName string                `json:"displayName,omitempty"`
+		Permission  model.PermissionLevel `json:"permission"`
+	}
 	postUserRequest struct {
 		Username    string `json:"username"`
 		DisplayName string `json:"displayName"`
@@ -58,7 +63,65 @@ func (handler *UserHandler) RegisterRoutes(router *mux.Router) {
 	usersRouterWithAuth.HandleFunc("/{username}", wrapHandler(handler.GetUser)).Methods(http.MethodGet)
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// getUserRequestDoc is for swagger generation only.
+// swagger:parameters getUserRequest
+type getUserRequestDoc struct {
+	// Username of the user.
+	//
+	// In: path
+	Username string `json:"username"`
+
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+}
+
+// Contains data about the user and how to identify them.
+//
+// swagger:response getUserResponse
+type getUserResponseDoc struct {
+
+	// In: body
+	Body struct {
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The human readable display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
+
+		// The type of permission for this user.
+		//
+		// Required: true
+		Permission model.PermissionLevel `json:"permission"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // GetUser is the handler that retrieves the model.User as serialized JSON.
+//
+// swagger:route GET /api/v1/users/{username} Users getUserRequest
+//
+// Gets the user specified by the username.
+//
+// This will retrieve a user from storage based on the username.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: getUserResponse
+//    404: noBody
 func (handler *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) error {
 	username := mux.Vars(r)["username"]
 	r = r.WithContext(log.WithFields(r.Context(), "username", username))
@@ -71,11 +134,7 @@ func (handler *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) erro
 		return errors.Wrap(err, "could not retrieve user")
 	}
 
-	rawUser, err := json.Marshal(struct {
-		Username    string                `json:"username"`
-		DisplayName string                `json:"displayName"`
-		Permission  model.PermissionLevel `json:"permission"`
-	}{
+	rawUser, err := json.Marshal(getUserResponse{
 		Username:    user.Username,
 		DisplayName: user.DisplayName,
 		Permission:  user.Permission,
@@ -89,7 +148,51 @@ func (handler *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) erro
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// Contains data about the user and how to identify them.
+//
+// swagger:response postUserRequest
+type postUserRequestDoc struct {
+
+	// In: body
+	Body struct {
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The clear text password for the user. This is not stored as cleartext on the server.
+		//
+		// Required: true
+		Password string `json:"password"`
+
+		// The human readable display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // PostUser is the handler that adds a new model.User to storage.
+//
+// swagger:route POST /api/v1/users Users postUserRequest
+//
+// Creates a new user that will be specified by the username.
+//
+// This will create a new user and add them to storage. The password is hashed before being stored and the text is never logged.
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Responses:
+//    201: noBody
+//    400: errorMessage
 func (handler *UserHandler) PostUser(w http.ResponseWriter, r *http.Request) error {
 	rawBody, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -144,7 +247,75 @@ func (handler *UserHandler) PostUser(w http.ResponseWriter, r *http.Request) err
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// Contains data about the user and how to login.
+//
+// swagger:response postLoginRequest
+type postLoginRequestDoc struct {
+
+	// In: body
+	Body struct {
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The clear text password for the user. This is not stored as cleartext on the server.
+		//
+		// Required: true
+		Password string `json:"password"`
+	}
+}
+
+// Contains all of the information to identify the user including the authentication token.
+//
+// swagger:response postLoginResponse
+type postLoginResponseDoc struct {
+	// In: body
+	Body struct {
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
+
+		// The permissions of the user.
+		//
+		// Required: true
+		Permission model.PermissionLevel `json:"permission"`
+
+		// The token used to identify the user.
+		//
+		// Required: true
+		AuthToken string `json:"authToken"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // PostLogin is the handler that retrieves an auth token for the specified model.User.
+//
+// swagger:route POST /api/v1/users/login Users postLoginRequest
+//
+// Retrieves an authentication token for the user.
+//
+// This will generate a new authentication token for the user specified by the username and password.
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Responses:
+//    200: noBody
+//    400: errorMessage
+//    404: errorMessage
 func (handler *UserHandler) PostLogin(w http.ResponseWriter, r *http.Request) error {
 	rawBody, err := io.ReadAll(r.Body)
 	if err != nil {

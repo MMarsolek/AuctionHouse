@@ -1,3 +1,30 @@
+// Package classification AuctionHouse API.
+//
+// The purpose of this application is to provide the client with functionality to define users, items for auctions,
+// and ways to place bids on those items.
+//
+//  Terms Of Service:
+//    There are no terms of service at the moment. Use at your own risk, we take no responsibility.
+//
+//  Schemes: http
+//  Host: localhost
+//  BasePath: /api/v1
+//  Version: 0.1.0
+//  License: MIT http://opensource.org/licenses/MIT
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  SecurityDefinitions:
+//  api_key:
+//    type: apiKey
+//    name: KEY
+//    in: header
+//
+// swagger:meta
 package server
 
 import (
@@ -8,6 +35,7 @@ import (
 
 	"github.com/MMarsolek/AuctionHouse/server/controller"
 	"github.com/MMarsolek/AuctionHouse/server/controller/middleware"
+	"github.com/MMarsolek/AuctionHouse/server/controller/ws"
 	"github.com/MMarsolek/AuctionHouse/storage"
 	"github.com/gorilla/mux"
 )
@@ -49,4 +77,7 @@ func setupControllers(
 
 	auctionHandler := controller.NewAuctionHandler(userClient, itemClient, bidClient)
 	auctionHandler.RegisterRoutes(rootRouter)
+
+	websocketHandler := ws.NewHandler(userClient, itemClient, bidClient)
+	websocketHandler.RegisterRoutes(rootRouter)
 }

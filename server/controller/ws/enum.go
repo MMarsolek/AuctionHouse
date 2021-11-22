@@ -6,6 +6,11 @@ import (
 	"github.com/pkg/errors"
 )
 
+// SocketCommand
+//
+// Defines the different types of commands available using the websocket API.
+//
+// swagger:model SocketCommand
 type SocketCommand string
 
 const (

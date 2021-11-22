@@ -107,7 +107,63 @@ func (handler *AuctionHandler) RegisterRoutes(router *mux.Router) {
 
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// getItemRequestDoc is for swagger generation only.
+// swagger:parameters getItemRequest
+type getItemRequestDoc struct {
+	// Name of the item.
+	//
+	// In: path
+	Name string `json:"itemName"`
+
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+}
+
+// Contains data about the item and how to identify them.
+//
+// swagger:response getItemResponse
+type getItemResponseDoc struct {
+
+	// In: body
+	Body struct {
+		// The name of the item.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// The reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+
+		// The description of the item.
+		Description string `json:"description,omitempty"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // GetItem is the handler that retrieves the model.AuctionItem as serialized JSON.
+//
+// swagger:route GET /api/v1/auctions/items/{itemName} Auctions getItemRequest
+//
+// Gets the item specified by the name.
+//
+// This will retrieve a item from storage based on the name.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: getItemResponse
+//    404: noBody
 func (handler *AuctionHandler) GetItem(w http.ResponseWriter, r *http.Request) error {
 	itemName := mux.Vars(r)["itemName"]
 	r = r.WithContext(log.WithFields(r.Context(), "itemName", itemName))
@@ -134,7 +190,57 @@ func (handler *AuctionHandler) GetItem(w http.ResponseWriter, r *http.Request) e
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// getItemsRequestDoc is for swagger generation only.
+// swagger:parameters getItemsRequest
+type getItemsRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+}
+
+// Contains data about the item and how to identify them.
+//
+// swagger:response getItemsResponse
+type getItemsResponseDoc struct {
+
+	// In: body
+	Body []struct {
+		// The name of the item.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// The reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+
+		// The description of the item.
+		Description string `json:"description,omitempty"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // GetItems is the handler that retrieves all model.AuctionItems as serialized JSON.
+//
+// swagger:route GET /api/v1/auctions/items Auctions getItemsRequest
+//
+// Gets all items that are currently stored in the system.
+//
+// This will retrieve all items from storage.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: getItemsResponse
 func (handler *AuctionHandler) GetItems(w http.ResponseWriter, r *http.Request) error {
 	items, err := handler.auctionItemClient.GetAll(r.Context())
 	if err != nil {
@@ -159,7 +265,55 @@ func (handler *AuctionHandler) GetItems(w http.ResponseWriter, r *http.Request) 
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// postItemRequestDoc is for swagger generation only.
+// swagger:parameters postItemRequest
+type postItemRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+
+	// In: body
+	Body struct {
+		// Name used to identify the item later.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// Description of the item.
+		Description string `json:"description,omitempty"`
+
+		// Reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // PostItem is the handler that creates a new model.AuctionItem.
+//
+// swagger:route POST /api/v1/auctions/items Auctions postItemRequest
+//
+// Creates a new item for auction.
+//
+// This will create a new item available for being auctioned. This route is only available to Admin users.
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    201: noBody
+//    400: errorMessage
 func (handler *AuctionHandler) PostItem(w http.ResponseWriter, r *http.Request) error {
 	rawBody, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -199,7 +353,59 @@ func (handler *AuctionHandler) PostItem(w http.ResponseWriter, r *http.Request) 
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// putItemRequestDoc is for swagger generation only.
+// swagger:parameters putItemRequest
+type putItemRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+
+	// In: path
+	ItemName string `json:"itemName"`
+
+	// In: body
+	Body struct {
+		// Name used to identify the item later.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// Description of the item.
+		Description string `json:"description,omitempty"`
+
+		// Reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // PutItem is the handler that updates the fields of a model.AuctionItem.
+//
+// swagger:route PUT /api/v1/auctions/items/{itemName} Auctions putItemRequest
+//
+// Updates fields for an item.
+//
+// This will update an existing item available for being auctioned. This route is only available to Admin users.
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: noBody
+//    400: errorMessage
+//    404: errorMessage
 func (handler *AuctionHandler) PutItem(w http.ResponseWriter, r *http.Request) error {
 	itemName := mux.Vars(r)["itemName"]
 
@@ -241,7 +447,41 @@ func (handler *AuctionHandler) PutItem(w http.ResponseWriter, r *http.Request) e
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// deleteItemRequestDoc is for swagger generation only.
+// swagger:parameters deleteItemRequest
+type deleteItemRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+
+	// In: path
+	ItemName string `json:"itemName"`
+}
+
+// ----- End Documentation Generation Types --------------
+
 // DeleteItem is the handler that removes a model.AuctionItem from storage.
+//
+// swagger:route DELETE /api/v1/auctions/items/{itemName} Auctions deleteItemRequest
+//
+// Deletes an item from the server.
+//
+// This will delete an existing item. This route is only available to Admin users.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: noBody
+//    404: errorMessage
 func (handler *AuctionHandler) DeleteItem(w http.ResponseWriter, r *http.Request) error {
 	itemName := mux.Vars(r)["itemName"]
 
@@ -263,8 +503,85 @@ func (handler *AuctionHandler) DeleteItem(w http.ResponseWriter, r *http.Request
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// getHighestBidRequestDoc is for swagger generation only.
+// swagger:parameters getHighestBidRequest
+type getHighestBidRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+
+	// In: path
+	ItemName string `json:"itemName"`
+}
+
+// Contains data about the bid, what the item is, and who made it.
+//
+// swagger:response getHighestBidResponse
+type getHighestBidResponseDoc struct {
+
+	// In: body
+	Body struct {
+		// The amount of money being bid for this item.
+		//
+		// Required: true
+		BidAmount int `json:"bidAmount"`
+
+		// The item being bid on.
+		//
+		// Required: true
+		Item struct {
+			// The name of the item.
+			//
+			// Required: true
+			Name string `json:"name"`
+
+			// The reference to the image source.
+			ImageRef string `json:"image,omitempty"`
+
+			// The description of the item.
+			Description string `json:"description,omitempty"`
+		} `json:"item"`
+
+		// The user who bid on the item.
+		//
+		// Required: true
+		Bidder struct {
+			// The username of the user.
+			//
+			// Required: true
+			Username string `json:"username"`
+
+			// The display name of the user.
+			DisplayName string `json:"displayName,omitempty"`
+		} `json:"bidder"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // GetHighestBid is the handler that finds the highest bid for a model.AuctionItem and retrieves the model.AuctionBid as
 // serialized JSON.
+//
+// swagger:route GET /api/v1/auctions/bids/{itemName} Auctions getHighestBidRequest
+//
+// Retrieves the highest bid for the specified item.
+//
+// This will retrieve the highest bid for the specified item.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: getHighestBidResponse
+//    404: errorMessage
 func (handler *AuctionHandler) GetHighestBid(w http.ResponseWriter, r *http.Request) error {
 	itemName := mux.Vars(r)["itemName"]
 
@@ -316,8 +633,81 @@ func (handler *AuctionHandler) GetHighestBid(w http.ResponseWriter, r *http.Requ
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// getHighestBidsRequestDoc is for swagger generation only.
+// swagger:parameters getHighestBidsRequest
+type getHighestBidsRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+}
+
+// Contains data about the bid, what the item is, and who made it.
+//
+// swagger:response getHighestBidsResponse
+type getHighestBidsResponseDoc struct {
+
+	// In: body
+	Body []struct {
+		// The amount of money being bid for this item.
+		//
+		// Required: true
+		BidAmount int `json:"bidAmount"`
+
+		// The item being bid on.
+		//
+		// Required: true
+		Item struct {
+			// The name of the item.
+			//
+			// Required: true
+			Name string `json:"name"`
+
+			// The reference to the image source.
+			ImageRef string `json:"image,omitempty"`
+
+			// The description of the item.
+			Description string `json:"description,omitempty"`
+		} `json:"item"`
+
+		// The user who bid on the item.
+		//
+		// Required: true
+		Bidder struct {
+			// The username of the user.
+			//
+			// Required: true
+			Username string `json:"username"`
+
+			// The display name of the user.
+			DisplayName string `json:"displayName,omitempty"`
+		} `json:"bidder"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // GetHighestBid is the handler that finds the highest bids all model.AuctionItems and retrieves all model.AuctionBids as
 // serialized JSON.
+//
+// swagger:route GET /api/v1/auctions/bids Auctions getHighestBidsRequest
+//
+// Retrieves the highest bid for all items.
+//
+// This will retrieve the highest bid for all items.
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    200: getHighestBidResponse
 func (handler *AuctionHandler) GetHighestBids(w http.ResponseWriter, r *http.Request) error {
 	highestBids, err := handler.auctionBidClient.GetAllHighestBids(r.Context())
 	if err != nil {
@@ -348,7 +738,54 @@ func (handler *AuctionHandler) GetHighestBids(w http.ResponseWriter, r *http.Req
 	return nil
 }
 
+// ----- Start Documentation Generation Types --------------
+
+// postBidRequestDoc is for swagger generation only.
+// swagger:parameters postBidRequest
+type postBidRequestDoc struct {
+	// Expected to be "Bearer <auth_token>"
+	//
+	// In: header
+	Authentication string
+
+	// In: path
+	ItemName string `json:"itemName"`
+
+	// In: body
+	Body struct {
+		// The amount to bid on the item for.
+		//
+		// Required: true
+		BidAmount int `json:"bidAmount"`
+	}
+}
+
+// ----- End Documentation Generation Types --------------
+
 // PostBid is the handler that lets a user bid for an existing item.
+//
+// swagger:route POST /api/v1/auctions/bids/{itemName} Auctions postBidRequest
+//
+// Makes a new bid on an item.
+//
+// This will place a bid on the specified item. The user is identified by the authentication token. This is only
+// available for Bidder users.
+//
+//  Consumes:
+//  - application/json
+//
+//  Produces:
+//  - application/json
+//
+//  Schemes: http
+//
+//  Security:
+//    api_key:
+//
+//  Responses:
+//    201: noBody
+//    400: errorMessage
+//    404: errorMessage
 func (handler *AuctionHandler) PostBid(w http.ResponseWriter, r *http.Request) error {
 	itemName := mux.Vars(r)["itemName"]
 	username := auth.ExtractUsername(r.Context())
