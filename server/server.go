@@ -8,7 +8,6 @@
 //
 //  Schemes: http
 //  Host: localhost
-//  BasePath: /api/v1
 //  Version: 0.1.0
 //  License: MIT http://opensource.org/licenses/MIT
 //
