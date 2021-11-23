@@ -16,6 +16,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	defaultAdminUser     string = "admin"
+	defaultAdminPassword string = "admin"
+)
+
 const (
 	serverParamPort             = "port"
 	serverParamAdminUser        = "admin-username"
@@ -34,9 +39,9 @@ var serverCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(serverCmd)
 	serverCmd.Flags().IntP(serverParamPort, "p", 8080, "The port to use.")
-	serverCmd.Flags().StringP(serverParamAdminUser, "u", "admin", "The default admin username")
+	serverCmd.Flags().StringP(serverParamAdminUser, "u", defaultAdminUser, "The default admin username")
 	serverCmd.Flags().StringP(serverParamAdminDisplayName, "d", "admin", "The default admin display name")
-	serverCmd.Flags().StringP(serverParamAdminPassword, "P", "admin", "The default admin password")
+	serverCmd.Flags().StringP(serverParamAdminPassword, "P", defaultAdminPassword, "The default admin password")
 }
 
 func startServer(cmd *cobra.Command, args []string) error {

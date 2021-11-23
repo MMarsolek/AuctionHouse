@@ -64,6 +64,17 @@ func RemoveTrailingSlash(next http.Handler) http.Handler {
 	})
 }
 
+// CSSHeaderSetter sets the appropriate headers for accessing CSS files.
+func CSSHeaderSetter(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, ".css") {
+			r.Header.Set("Content-Type", "text/css")
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 // VerifyAuthToken prevents moving to the next handler if a token is not supplied or it's invalid.
 func VerifyAuthToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

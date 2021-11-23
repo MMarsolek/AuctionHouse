@@ -69,7 +69,7 @@ func TestPanicHandlerRecoversFromErrorPanic(t *testing.T) {
 	})
 }
 
-func TestTrailingSlashRemovesSlashFromPath(t *testing.T) {
+func TestRemoveTrailingSlashRemovesSlashFromPath(t *testing.T) {
 	runMiddlewareHandler(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 			require.True(t, strings.HasSuffix(r.URL.Path, "/"), "url should have a / in the suffix")
@@ -78,6 +78,30 @@ func TestTrailingSlashRemovesSlashFromPath(t *testing.T) {
 	}, func(w http.ResponseWriter, r *http.Request) {
 		require.True(t, !strings.HasSuffix(r.URL.Path, "/"), "url should not have a / in the suffix")
 	})
+}
+
+func TestCSSHeaderSetterSetsContentType(t *testing.T) {
+	handler := http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		contentType := r.Header.Get("Content-Type")
+		require.EqualValues(t, "text/css", contentType)
+	})
+
+	request, err := http.NewRequest(http.MethodGet, "/some/file/styles.css", nil)
+	require.NoError(t, err)
+
+	CSSHeaderSetter(handler).ServeHTTP(nil, request)
+}
+
+func TestCSSHeaderSetterDoesNotSetContentTypeOnNonCSSPaths(t *testing.T) {
+	handler := http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		contentType := r.Header.Get("Content-Type")
+		require.NotEqualValues(t, "text/css", contentType)
+	})
+
+	request, err := http.NewRequest(http.MethodGet, "/some/file/that/is/not/style/sheet.txt", nil)
+	require.NoError(t, err)
+
+	CSSHeaderSetter(handler).ServeHTTP(nil, request)
 }
 
 func TestVerifyAuthTokenWritesUnauthorizedOnNoToken(t *testing.T) {

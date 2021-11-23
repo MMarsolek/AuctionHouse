@@ -49,10 +49,10 @@ func NewAuctionHouseServer(
 ) *http.Server {
 	router := mux.NewRouter()
 
-	fs := http.FileServer(http.Dir("./web"))
-	router.Handle("/", fs)
+	fs := http.FileServer(http.Dir("./dist"))
 
 	setupControllers(router.PathPrefix("/api").Subrouter(), userClient, auctionItemClient, auctionBidClient)
+	router.PathPrefix("/").Handler(http.StripPrefix("/", middleware.CSSHeaderSetter(fs)))
 
 	return &http.Server{
 		BaseContext:  func(net.Listener) context.Context { return ctx },
