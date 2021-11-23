@@ -313,7 +313,7 @@ type postLoginResponseDoc struct {
 //  Schemes: http
 //
 //  Responses:
-//    200: postLoginRequest
+//    200: postLoginResponse
 //    400: errorMessage
 //    404: errorMessage
 func (handler *UserHandler) PostLogin(w http.ResponseWriter, r *http.Request) error {
