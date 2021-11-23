@@ -50,7 +50,7 @@ func NewAuctionHouseServer(
 	router := mux.NewRouter()
 
 	fs := http.FileServer(http.Dir("./web"))
-	router.Handle("/web", http.StripPrefix("/web", fs))
+	router.Handle("/", fs)
 
 	setupControllers(router.PathPrefix("/api").Subrouter(), userClient, auctionItemClient, auctionBidClient)
 

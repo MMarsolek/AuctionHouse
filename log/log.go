@@ -11,7 +11,7 @@ type logKey struct{}
 
 // WithLogger stores the logger in the context.
 func WithLogger(ctx context.Context, logger *zap.SugaredLogger) context.Context {
-	return context.WithValue(ctx, logKey{}, logger)
+	return context.WithValue(ctx, logKey{}, logger.Desugar().WithOptions(zap.AddCallerSkip(1)).Sugar())
 }
 
 // WithFields stores a logger that has fields included in every log.

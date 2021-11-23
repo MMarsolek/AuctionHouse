@@ -56,8 +56,10 @@ func PanicHandler(next http.Handler) http.Handler {
 // RemoveTrailingSlash removes the trailing slash from the request path.
 func RemoveTrailingSlash(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		r.URL.Path = strings.TrimSuffix(r.URL.Path, "/")
-		r.URL.RawPath = strings.TrimSuffix(r.URL.Path, "/")
+		if r.URL.Path != "/" {
+			r.URL.Path = strings.TrimSuffix(r.URL.Path, "/")
+			r.URL.RawPath = strings.TrimSuffix(r.URL.RawPath, "/")
+		}
 		next.ServeHTTP(w, r)
 	})
 }
