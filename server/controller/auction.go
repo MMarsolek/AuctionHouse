@@ -16,42 +16,87 @@ import (
 )
 
 type (
+	// swagger:model
 	userResponse struct {
-		Username    string `json:"username"`
-		DisplayName string `json:"displayName"`
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The human readable display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
 	}
 
+	// swagger:model
 	itemResponse struct {
-		Name        string `json:"name"`
-		ImageRef    string `json:"image,omitempty"`
+		// The name of the item.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// The reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+
+		// The description of the item.
 		Description string `json:"description,omitempty"`
 	}
 
-	getHighestBidsResponse struct {
-		BidAmount int           `json:"bidAmount"`
-		Bidder    *userResponse `json:"bidder"`
-		Item      *itemResponse `json:"item"`
+	getHighestBidResponse struct {
+		// The amount of money being bid for this item.
+		//
+		// Required: true
+		BidAmount int `json:"bidAmount"`
+
+		// The item being bid on.
+		//
+		// Required: true
+		Item *itemResponse `json:"item"`
+
+		// The user who bid on the item.
+		//
+		// Required: true
+		Bidder *userResponse `json:"bidder"`
 	}
 
 	getItemResponse struct {
-		Name        string `json:"name"`
-		ImageRef    string `json:"image,omitempty"`
+		// The name of the item.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// The reference to the image source.
+		ImageRef string `json:"image,omitempty"`
+
+		// The description of the item.
 		Description string `json:"description,omitempty"`
 	}
 
 	postItemRequest struct {
-		Name        string `json:"name"`
-		Description string `json:"description"`
-		ImageRef    string `json:"image"`
+		// Name used to identify the item later.
+		//
+		// Required: true
+		Name string `json:"name"`
+
+		// Description of the item.
+		Description string `json:"description,omitempty"`
+
+		// Reference to the image source.
+		ImageRef string `json:"image,omitempty"`
 	}
 
 	putItemRequest struct {
+		// Description of the item.
 		Description string `json:"description,omitempty"`
-		ImageRef    string `json:"image,omitempty"`
+
+		// Reference to the image source.
+		ImageRef string `json:"image,omitempty"`
 	}
 
 	postBidRequest struct {
-		BidAmount int `json:"amount"`
+		// The amount to bid on the item for.
+		//
+		// Required: true
+		BidAmount int `json:"bidAmount"`
 	}
 )
 
@@ -129,18 +174,7 @@ type getItemRequestDoc struct {
 type getItemResponseDoc struct {
 
 	// In: body
-	Body struct {
-		// The name of the item.
-		//
-		// Required: true
-		Name string `json:"name"`
-
-		// The reference to the image source.
-		ImageRef string `json:"image,omitempty"`
-
-		// The description of the item.
-		Description string `json:"description,omitempty"`
-	}
+	Body getItemResponse
 }
 
 // ----- End Documentation Generation Types --------------
@@ -207,18 +241,7 @@ type getItemsRequestDoc struct {
 type getItemsResponseDoc struct {
 
 	// In: body
-	Body []struct {
-		// The name of the item.
-		//
-		// Required: true
-		Name string `json:"name"`
-
-		// The reference to the image source.
-		ImageRef string `json:"image,omitempty"`
-
-		// The description of the item.
-		Description string `json:"description,omitempty"`
-	}
+	Body []getItemResponse
 }
 
 // ----- End Documentation Generation Types --------------
@@ -276,18 +299,7 @@ type postItemRequestDoc struct {
 	Authentication string
 
 	// In: body
-	Body struct {
-		// Name used to identify the item later.
-		//
-		// Required: true
-		Name string `json:"name"`
-
-		// Description of the item.
-		Description string `json:"description,omitempty"`
-
-		// Reference to the image source.
-		ImageRef string `json:"image,omitempty"`
-	}
+	Body postItemRequest
 }
 
 // ----- End Documentation Generation Types --------------
@@ -367,18 +379,7 @@ type putItemRequestDoc struct {
 	ItemName string `json:"itemName"`
 
 	// In: body
-	Body struct {
-		// Name used to identify the item later.
-		//
-		// Required: true
-		Name string `json:"name"`
-
-		// Description of the item.
-		Description string `json:"description,omitempty"`
-
-		// Reference to the image source.
-		ImageRef string `json:"image,omitempty"`
-	}
+	Body putItemRequest
 }
 
 // ----- End Documentation Generation Types --------------
@@ -523,41 +524,7 @@ type getHighestBidRequestDoc struct {
 type getHighestBidResponseDoc struct {
 
 	// In: body
-	Body struct {
-		// The amount of money being bid for this item.
-		//
-		// Required: true
-		BidAmount int `json:"bidAmount"`
-
-		// The item being bid on.
-		//
-		// Required: true
-		Item struct {
-			// The name of the item.
-			//
-			// Required: true
-			Name string `json:"name"`
-
-			// The reference to the image source.
-			ImageRef string `json:"image,omitempty"`
-
-			// The description of the item.
-			Description string `json:"description,omitempty"`
-		} `json:"item"`
-
-		// The user who bid on the item.
-		//
-		// Required: true
-		Bidder struct {
-			// The username of the user.
-			//
-			// Required: true
-			Username string `json:"username"`
-
-			// The display name of the user.
-			DisplayName string `json:"displayName,omitempty"`
-		} `json:"bidder"`
-	}
+	Body getHighestBidResponse
 }
 
 // ----- End Documentation Generation Types --------------
@@ -613,7 +580,7 @@ func (handler *AuctionHandler) GetHighestBid(w http.ResponseWriter, r *http.Requ
 		return errors.Wrap(err, "could not get item")
 	}
 
-	rawResponse, err := json.Marshal(&getHighestBidsResponse{
+	rawResponse, err := json.Marshal(&getHighestBidResponse{
 		BidAmount: highestBid.BidAmount,
 		Bidder: &userResponse{
 			Username:    highestBid.Bidder.Username,
@@ -650,41 +617,7 @@ type getHighestBidsRequestDoc struct {
 type getHighestBidsResponseDoc struct {
 
 	// In: body
-	Body []struct {
-		// The amount of money being bid for this item.
-		//
-		// Required: true
-		BidAmount int `json:"bidAmount"`
-
-		// The item being bid on.
-		//
-		// Required: true
-		Item struct {
-			// The name of the item.
-			//
-			// Required: true
-			Name string `json:"name"`
-
-			// The reference to the image source.
-			ImageRef string `json:"image,omitempty"`
-
-			// The description of the item.
-			Description string `json:"description,omitempty"`
-		} `json:"item"`
-
-		// The user who bid on the item.
-		//
-		// Required: true
-		Bidder struct {
-			// The username of the user.
-			//
-			// Required: true
-			Username string `json:"username"`
-
-			// The display name of the user.
-			DisplayName string `json:"displayName,omitempty"`
-		} `json:"bidder"`
-	}
+	Body []getHighestBidResponse
 }
 
 // ----- End Documentation Generation Types --------------
@@ -714,9 +647,9 @@ func (handler *AuctionHandler) GetHighestBids(w http.ResponseWriter, r *http.Req
 		return errors.Wrap(err, "unable to get highest bids")
 	}
 
-	responseObjects := make([]*getHighestBidsResponse, len(highestBids))
+	responseObjects := make([]*getHighestBidResponse, len(highestBids))
 	for i, highestBid := range highestBids {
-		responseObjects[i] = &getHighestBidsResponse{
+		responseObjects[i] = &getHighestBidResponse{
 			BidAmount: highestBid.BidAmount,
 			Bidder: &userResponse{
 				Username:    highestBid.Bidder.Username,
@@ -752,12 +685,7 @@ type postBidRequestDoc struct {
 	ItemName string `json:"itemName"`
 
 	// In: body
-	Body struct {
-		// The amount to bid on the item for.
-		//
-		// Required: true
-		BidAmount int `json:"bidAmount"`
-	}
+	Body postBidRequest
 }
 
 // ----- End Documentation Generation Types --------------

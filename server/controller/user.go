@@ -17,26 +17,65 @@ import (
 
 type (
 	getUserResponse struct {
-		Username    string                `json:"username"`
-		DisplayName string                `json:"displayName,omitempty"`
-		Permission  model.PermissionLevel `json:"permission"`
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The human readable display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
+
+		// The type of permission for this user.
+		//
+		// Required: true
+		Permission model.PermissionLevel `json:"permission"`
 	}
+
 	postUserRequest struct {
-		Username    string `json:"username"`
-		DisplayName string `json:"displayName"`
-		Password    string `json:"password"`
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The clear text password for the user. This is not stored as cleartext on the server.
+		//
+		// Required: true
+		Password string `json:"password"`
+
+		// The human readable display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
 	}
 
 	postLoginRequest struct {
+		// The username for the user.
+		//
+		// Required: true
 		Username string `json:"username"`
+
+		// The clear text password for the user. This is not stored as cleartext on the server.
+		//
+		// Required: true
 		Password string `json:"password"`
 	}
 
 	postLoginResponse struct {
-		Username    string                `json:"username"`
-		DisplayName string                `json:"displayName"`
-		Permission  model.PermissionLevel `json:"permission"`
-		AuthToken   string                `json:"authToken"`
+		// The username for the user.
+		//
+		// Required: true
+		Username string `json:"username"`
+
+		// The display name of the user.
+		DisplayName string `json:"displayName,omitempty"`
+
+		// The permissions of the user.
+		//
+		// Required: true
+		Permission model.PermissionLevel `json:"permission"`
+
+		// The token used to identify the user.
+		//
+		// Required: true
+		AuthToken string `json:"authToken"`
 	}
 )
 
@@ -85,20 +124,7 @@ type getUserRequestDoc struct {
 type getUserResponseDoc struct {
 
 	// In: body
-	Body struct {
-		// The username for the user.
-		//
-		// Required: true
-		Username string `json:"username"`
-
-		// The human readable display name of the user.
-		DisplayName string `json:"displayName,omitempty"`
-
-		// The type of permission for this user.
-		//
-		// Required: true
-		Permission model.PermissionLevel `json:"permission"`
-	}
+	Body getUserResponse
 }
 
 // ----- End Documentation Generation Types --------------
@@ -152,24 +178,11 @@ func (handler *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) erro
 
 // Contains data about the user and how to identify them.
 //
-// swagger:response postUserRequest
+// swagger:parameters postUserRequest
 type postUserRequestDoc struct {
 
 	// In: body
-	Body struct {
-		// The username for the user.
-		//
-		// Required: true
-		Username string `json:"username"`
-
-		// The clear text password for the user. This is not stored as cleartext on the server.
-		//
-		// Required: true
-		Password string `json:"password"`
-
-		// The human readable display name of the user.
-		DisplayName string `json:"displayName,omitempty"`
-	}
+	Body postUserRequest
 }
 
 // ----- End Documentation Generation Types --------------
@@ -251,21 +264,11 @@ func (handler *UserHandler) PostUser(w http.ResponseWriter, r *http.Request) err
 
 // Contains data about the user and how to login.
 //
-// swagger:response postLoginRequest
+// swagger:parameters postLoginRequest
 type postLoginRequestDoc struct {
 
 	// In: body
-	Body struct {
-		// The username for the user.
-		//
-		// Required: true
-		Username string `json:"username"`
-
-		// The clear text password for the user. This is not stored as cleartext on the server.
-		//
-		// Required: true
-		Password string `json:"password"`
-	}
+	Body postLoginRequest
 }
 
 // Contains all of the information to identify the user including the authentication token.
@@ -273,25 +276,7 @@ type postLoginRequestDoc struct {
 // swagger:response postLoginResponse
 type postLoginResponseDoc struct {
 	// In: body
-	Body struct {
-		// The username for the user.
-		//
-		// Required: true
-		Username string `json:"username"`
-
-		// The display name of the user.
-		DisplayName string `json:"displayName,omitempty"`
-
-		// The permissions of the user.
-		//
-		// Required: true
-		Permission model.PermissionLevel `json:"permission"`
-
-		// The token used to identify the user.
-		//
-		// Required: true
-		AuthToken string `json:"authToken"`
-	}
+	Body postLoginResponse
 }
 
 // ----- End Documentation Generation Types --------------
