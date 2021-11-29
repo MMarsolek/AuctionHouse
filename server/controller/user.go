@@ -332,6 +332,15 @@ func (handler *UserHandler) PostLogin(w http.ResponseWriter, r *http.Request) er
 
 	match, err := auth.ComparePasswordAndHash(request.Password, user.HashedPassword)
 	if err != nil {
+		if errors.Is(err, auth.ErrEmptyPassword) {
+			w.WriteHeader(http.StatusBadRequest)
+			response, marshalErr := json.Marshal(newErrorResponse("password cannot be empty"))
+			if marshalErr != nil {
+				return errors.Wrap(marshalErr, "could not marshal error response")
+			}
+			fmt.Fprint(w, string(response))
+			return nil
+		}
 		return errors.Wrap(err, "unable to verify password hash")
 	}
 
