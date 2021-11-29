@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { Component } from 'react';
 import './user-login.scss'
+import userLogIn from '../../biddrClient/biddrClient'
 
 export default class UserLogIn extends Component{
     state = {
@@ -18,16 +18,7 @@ export default class UserLogIn extends Component{
     
     handleSubmit = event => {
         event.preventDefault();
-
-
-        axios.post('http://localhost:8080/api/v1/users/login', {
-            username: this.state.name,
-            password: this.state.pass
-        })
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
+        userLogIn(this.name, this.pass)
     }
 
     render(){
