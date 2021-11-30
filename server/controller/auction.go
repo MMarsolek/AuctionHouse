@@ -165,7 +165,7 @@ type getItemRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 }
 
 // Contains data about the item and how to identify them.
@@ -232,7 +232,7 @@ type getItemsRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 }
 
 // Contains data about the item and how to identify them.
@@ -296,7 +296,7 @@ type postItemRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 
 	// In: body
 	Body postItemRequest
@@ -373,7 +373,7 @@ type putItemRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 
 	// In: path
 	ItemName string `json:"itemName"`
@@ -456,7 +456,7 @@ type deleteItemRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 
 	// In: path
 	ItemName string `json:"itemName"`
@@ -512,7 +512,7 @@ type getHighestBidRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 
 	// In: path
 	ItemName string `json:"itemName"`
@@ -608,7 +608,7 @@ type getHighestBidsRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 }
 
 // Contains data about the bid, what the item is, and who made it.
@@ -679,7 +679,7 @@ type postBidRequestDoc struct {
 	// Expected to be "Bearer <auth_token>"
 	//
 	// In: header
-	Authentication string
+	Authorization string
 
 	// In: path
 	ItemName string `json:"itemName"`
@@ -696,7 +696,7 @@ type postBidRequestDoc struct {
 //
 // Makes a new bid on an item.
 //
-// This will place a bid on the specified item. The user is identified by the authentication token. This is only
+// This will place a bid on the specified item. The user is identified by the authorization token. This is only
 // available for Bidder users.
 //
 //  Consumes:

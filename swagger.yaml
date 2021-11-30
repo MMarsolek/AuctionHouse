@@ -300,7 +300,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -321,7 +321,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -346,13 +346,13 @@ paths:
       consumes:
       - application/json
       description: |-
-        This will place a bid on the specified item. The user is identified by the authentication token. This is only
+        This will place a bid on the specified item. The user is identified by the authorization token. This is only
         available for Bidder users.
       operationId: postBidRequest
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -386,7 +386,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -409,7 +409,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: body
         name: Body
@@ -437,7 +437,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -470,7 +470,7 @@ paths:
         x-go-name: Name
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -495,7 +495,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
