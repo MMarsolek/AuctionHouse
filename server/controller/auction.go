@@ -640,7 +640,7 @@ type getHighestBidsResponseDoc struct {
 //    api_key:
 //
 //  Responses:
-//    200: getHighestBidResponse
+//    200: getHighestBidsResponse
 func (handler *AuctionHandler) GetHighestBids(w http.ResponseWriter, r *http.Request) error {
 	highestBids, err := handler.auctionBidClient.GetAllHighestBids(r.Context())
 	if err != nil {

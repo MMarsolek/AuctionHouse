@@ -11,7 +11,6 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/uptrace/bun v1.0.17
 	github.com/uptrace/bun/dialect/sqlitedialect v1.0.17
-	github.com/uptrace/bun/driver/sqliteshim v1.0.17
 	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa
 	modernc.org/sqlite v1.14.1
@@ -25,7 +24,6 @@ require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/magefile/mage v1.9.0 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
-	github.com/mattn/go-sqlite3 v1.14.9 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

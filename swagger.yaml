@@ -306,7 +306,7 @@ paths:
       - application/json
       responses:
         "200":
-          $ref: '#/responses/getHighestBidResponse'
+          $ref: '#/responses/getHighestBidsResponse'
       schemes:
       - http
       security:
