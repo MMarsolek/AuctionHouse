@@ -1,5 +1,5 @@
-import biddrClient from '../../biddrClient/biddrClient'
-import './auction-items.css'
+import { Component } from 'react';
+import biddrClient from '../../../biddrClient/biddrClient';
 
 
 export default class MakeBid extends Component{
@@ -9,13 +9,14 @@ export default class MakeBid extends Component{
         itemName : ''
     }
 
-    handleClick = event => {
+    handleClick = async event => {
 
         event.preventDefault();
-        this.setState({itemName : this.props.MakeBid})
+        this.setState({itemName : this.props.MakeBid});
         await biddrClient.userLogIn(this.state.itemName, this.state.bid);
     }
-    handleBidChange= event => {
+
+    handleBidChange = event => {
         this.setState({bid: event.target.value});
     }
 

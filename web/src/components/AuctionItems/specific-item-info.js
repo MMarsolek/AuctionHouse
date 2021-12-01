@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './auction-items.css'
-import MakeBid from './Bid'
+import MakeBid from './Bid/make-bid'
 
 
 

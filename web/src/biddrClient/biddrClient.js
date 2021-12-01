@@ -11,15 +11,16 @@ class BiddrClient{
     
     async requestConfig(url, method, {headers, body} = {}){
         const myParameters = {
-            'url' : url, 
-            'method' : method, 
-            'baseURL' : this.domain,  
-            'validateStatus' :  status => status < 500
+            url : url, 
+            method : method, 
+            baseURL : this.domain,  
+            validateStatus :  status => status < 500,
+            headers: {
+                ...(headers || {}),
+                authorization: `Bearer ${this.userAuth}`,
+            }
         };
-        if(headers){
 
-            myParameters['headers'] = headers;
-        };
         if(body){
             myParameters['data'] = body;
         };
@@ -37,7 +38,7 @@ class BiddrClient{
         }})
     }
 
-    async getUserInformation(userName){4
+    async getUserInformation(userName){
         const encodedUser = encodeURIComponent(userName)
         const response = await  this.requestConfig(`/api/v1/users/${encodedUser}`, 'get');
         return response;
@@ -51,7 +52,6 @@ class BiddrClient{
             
         }});
         this.userAuth = response['authToken'];
-        console.log(this.userAuth);
         return response;
     }
 
@@ -65,27 +65,18 @@ class BiddrClient{
 
     async getHighestBidForOneItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'get', {
-            headers: this.returnHeaders()
-        });
+        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'get');
     }
 
     async makeBid(name, bid){
         const encodedItem = encodeURIComponent(name)
         return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'post', {
             body: {bidAmount: bid},
-            headers: this.returnHeaders()
         });
     }
     
     async getAllItems(){
-        console.log('entered axios')
-        return await this.requestConfig(`/api/v1/auctions/items`, 'get',{
-            headers: this.returnHeaders()})
-            
-
-
-            
+        return await this.requestConfig(`/api/v1/auctions/items`, 'get')
     }
 
     async createNewItem(description, image, name){
@@ -96,22 +87,17 @@ class BiddrClient{
                 image,
                 name
             },
-            headers: this.returnHeaders(),
         });
     }
 
     async deleteItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'delete',{
-            headers: this.returnHeaders()
-        });
+        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'delete');
     }
 
     async getSpecificItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'get', {
-            headers: this.returnHeaders()
-        });
+        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'get');
     }
 
     async updateItem(description, image, name){
@@ -121,18 +107,14 @@ class BiddrClient{
                 description: description,
                 image: image,
                 name: name
-            },
-            headers:  this.returnHeaders()
+            }
         });
     }
 
     async establishWebSocket(){
-        return await this.requestConfig('/api/v1/ws', get, {
-            headers: this.returnHeaders()
-        });
+        return await this.requestConfig('/api/v1/ws', 'get');
     }
 
 }
-export default new BiddrClient("http://localhost:8080")
 
-window.axios = axios
+export default new BiddrClient("http://localhost:8080")

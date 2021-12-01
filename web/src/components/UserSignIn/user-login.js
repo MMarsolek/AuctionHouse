@@ -36,7 +36,7 @@ import  {withCookies} from 'react-cookie'
                         <div className= "form-field">
                         <label className="username"><span className="hidden">Username</span></label>
                             <input type="text" name="name" onChange={this.handleUserChange} className= "form-input"
-                            placeholder="Username"  required/>
+                            placeholder="Username" required/>
                         </div>
 
                         <div className="form form-field">
