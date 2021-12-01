@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Navbar from './components/Navbar/nav-bar';
-// import AuctionItems from './components/AuctionItems/auction-items';
+import AddItems from './components/AuctionItems/add-auction-items';
+import ListItems from './components/AuctionItems/list-auction-items';
 import UserLogIn  from './components/UserSignIn/user-login';
+import MakeBid  from './components/AuctionItems/Bid/make-bid';
+import { CookiesProvider } from 'react-cookie'
 
 
 function App(){
     return (
-        <div className="app">
+        <CookiesProvider>
             <Navbar />
             {/* <AuctionItems /> */}
             <UserLogIn />
-        </div>
+            <AddItems />
+            <ListItems />
+        </CookiesProvider>
+            
     )
 }
 

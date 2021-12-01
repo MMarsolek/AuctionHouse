@@ -3,188 +3,136 @@ import axios from 'axios'
 class BiddrClient{
 
     userAuth = '';
+    domain = '';
 
     constructor(baseUrl){
         this.domain = baseUrl
     }
+    
+    async requestConfig(url, method, {headers, body} = {}){
+        const myParameters = {
+            'url' : url, 
+            'method' : method, 
+            'baseURL' : this.domain,  
+            'validateStatus' :  status => status < 500
+        };
+        if(headers){
 
-    createUser(user, display, pass){
-        return axios.post(`${this.domain}/api/v1/users/`, { 
+            myParameters['headers'] = headers;
+        };
+        if(body){
+            myParameters['data'] = body;
+        };
+        const myResults = await axios(myParameters);
+        
+        return myResults.data;
+    }
+
+    async createUser(user, display, pass){
+        return await this.requestConfig('/api/v1/users/', 'post', {
+            body: {
             username: user,
             password: pass,
             displayName: display
-        },{
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        });
+        }})
     }
 
-    getUserInformation(userName){
+    async getUserInformation(userName){4
         const encodedUser = encodeURIComponent(userName)
-        return axios.get(`${this.domain}/api/v1/users/${encodedUser}`, {
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            this.userAuth = res.data['authToken'];
-            return res.data
+        const response = await  this.requestConfig(`/api/v1/users/${encodedUser}`, 'get');
+        return response;
+    }1
+
+    async userLogIn(username, password){
+        const response = await this.requestConfig('/api/v1/users/login', 'post',{
+            body: {
+            username: username,
+            password: password,
+            
+        }});
+        this.userAuth = response['authToken'];
+        console.log(this.userAuth);
+        return response;
+    }
+
+    returnHeaders(){
+        return ({'authorization':'Bearer ' + this.userAuth})
+    }
+
+    async getHighestBidForAll(){
+        return await this.requestConfig('/api/v1/auctions/bids', 'get',{headers: this.returnHeaders});
+     }
+
+    async getHighestBidForOneItem(name){
+        const encodedItem = encodeURIComponent(name)
+        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'get', {
+            headers: this.returnHeaders()
         });
     }
 
-    userLogIn(user, pass){
-        return axios.post(`${this.domain}/api/v1/users/login`, {   
-            username: user,
-            password: pass
-        },{ validateStatus: status => {
-                return status < 500;
-            }}).then(res => {
-            return res.data
-        })
+    async makeBid(name, bid){
+        const encodedItem = encodeURIComponent(name)
+        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'post', {
+            body: {bidAmount: bid},
+            headers: this.returnHeaders()
+        });
+    }
+    
+    async getAllItems(){
+        console.log('entered axios')
+        return await this.requestConfig(`/api/v1/auctions/items`, 'get',{
+            headers: this.returnHeaders()})
+            
+
+
+            
     }
 
-    getHighestBidForAll(){
-        return axios.get(`${this.domain}/api/v1/auctions/bids`,  { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
+    async createNewItem(description, image, name){
+        console.log(name);
+        return await this.requestConfig('/api/v1/auctions/items', 'post', {
+            body:
+            {   description,
+                image,
+                name
+            },
+            headers: this.returnHeaders(),
+        });
     }
 
-    getHighestBidForOneItem(name){
-        const encodeditem = encodeURIComponent(name)
-        return axios.get(`${this.domain}/api/v1/auctions/bids${encodeditem}`,  { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
+    async deleteItem(name){
+        const encodedItem = encodeURIComponent(name)
+        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'delete',{
+            headers: this.returnHeaders()
+        });
     }
 
-    makeBid(name, bid){
-        const encodeditem = encodeURIComponent(name)
-        return axios.post(`${this.domain}/api/v1/auctions/bids${encodeditem}`, {
-            'bidAmount': bid}, { 
-            headers: {
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
+    async getSpecificItem(name){
+        const encodedItem = encodeURIComponent(name)
+        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'get', {
+            headers: this.returnHeaders()
+        });
     }
 
-    getAllItems(){
-        return axios.get(`${this.domain}/api/v1/auctions/items`,{ 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
+    async updateItem(description, image, name){
+        const encodedItem = encodeURIComponent(name)
+        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'put', {
+            body: {
+                description: description,
+                image: image,
+                name: name
+            },
+            headers:  this.returnHeaders()
+        });
     }
 
-    createNewItem(description, image, name){
-        const encodeditem = encodeURIComponent(name)
-        return axios.post(`${this.domain}/api/v1/auctions/bids${encodeditem}`,  {
-            description: description,
-            image: image,
-            name: name
-        }, { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
-    }
-
-    deleteItem(name){
-        const encodeditem = encodeURIComponent(name)
-        return axios.delete(`${this.domain}/api/v1/auctions/bids${encodeditem}`, { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
-    }
-
-    getSpecificItem(name){
-        const encodeditem = encodeURIComponent(name)
-        return axios.get(`${this.domain}/api/v1/auctions/bids${encodeditem}`, { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
-    }
-
-    updateItem(description, image, name){
-        const encodeditem = encodeURIComponent(name)
-        return axios.put(`${this.domain}/api/v1/auctions/bids${encodeditem}`,  {
-            description: description,
-            image: image,
-            name: name
-        }, { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
-    }
-
-    establisWebSocket(){
-        return axios.get(`${this.domain}/api/v1/ws`, { 
-            headers:{
-                authenication: 'Bearer ' + this.userAuth
-            }  
-        }, { 
-            validateStatus: status => {
-                return status < 500;
-            }
-        }).then(res => {
-            return res.data
-        })
+    async establishWebSocket(){
+        return await this.requestConfig('/api/v1/ws', get, {
+            headers: this.returnHeaders()
+        });
     }
 
 }
 export default new BiddrClient("http://localhost:8080")
+
+window.axios = axios

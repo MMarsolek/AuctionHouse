@@ -7,16 +7,20 @@ body{
   background: rgb(35, 125, 190);
   background: linear-gradient(to top, rgb(33, 85, 122), rgb(35, 125, 190)); /* Chrome 10-25, Safari 5.1-6 */
   background-repeat:no-repeat;
+  margin-left: 50px;
+  margin-bottom: 50px;
 
 }
 
 
 .login-container{
   
-  color: whitesmoke;
+  // color: whitesmoke;
   padding:25px 25px 0;
   margin: 20px 20px 0;	
   border-radius: 3px;
+  color: black;
+
 }
 input {
   border: 0;
@@ -51,8 +55,9 @@ input {
   content: '\f007';
   font-size: 14;
   font-family: 'Work Sans', sans-serif;
-	color: #5b5b5b;
+	color: #000000;
 }
+
 
 .form input[type="password"], .form input[type="text"], .form input[type="submit"] {
   width: 100%;
@@ -64,7 +69,7 @@ input {
 .form-login input[type="submit"] {
   border-radius: 0.25rem;
   padding: 1rem;
-  color: #3A3F44;  
+  color: #000000;  
 }
 
 .form-login label {
@@ -85,7 +90,7 @@ input {
 }
 .form-login input[type="submit"] {
   background-color: #00B9BC;
-  color: #eee;
+  // color: black;
   font-weight: bold;
   text-transform: uppercase;
 }

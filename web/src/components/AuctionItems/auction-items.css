@@ -1,0 +1,67 @@
+.addition-flex{
+    align-content:center;
+}
+
+.login-form{
+align-content: center;
+
+}
+
+.specific-item-list{
+    margin: 0;
+    padding: 0;
+}
+
+.item-list{
+    border: 1px;
+    border-radius: 4px;
+    align-items: center;
+    /* background: rgba(27, 95, 143, 0.329); */
+    background: linear-gradient(to top, rgb(33, 85, 122), rgb(27, 95, 143, 0.329)); /* Chrome 10-25, Safari 5.1-6 */
+
+    color: whitesmoke;
+    font-size: 12px;
+}
+
+.bid-amount{
+    size: 10px;
+}
+
+.items-list{
+    list-style-type: none;
+
+}
+
+.bid-maker{
+    background: red;
+    padding: 10px;
+    
+}
+
+.unordered-list{
+    list-style-type: none;
+
+}
+
+.items-name{
+    padding: 10px;
+}
+
+.items-description{
+    text-align: right;
+}
+.items-image{
+    align-items: center;
+}
+
+
+.items-name:hover{
+    background-color: rgb(35,125, 190);
+    transition: 250ms;
+    font-size: larger;
+    cursor: pointer;
+
+
+}
+
+
