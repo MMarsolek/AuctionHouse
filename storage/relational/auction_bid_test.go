@@ -10,7 +10,6 @@ import (
 	"github.com/stretchr/testify/suite"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/sqlitedialect"
-	"github.com/uptrace/bun/driver/sqliteshim"
 )
 
 type auctionBidClientTestSuite struct {
@@ -24,7 +23,7 @@ type auctionBidClientTestSuite struct {
 }
 
 func (ts *auctionBidClientTestSuite) SetupSuite() {
-	rawDB, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
+	rawDB, err := sql.Open("sqlite", "file::memory:?_pragma=cache%3Dshared&_pragma=foreign_keys%3Dtrue")
 	ts.Require().NoError(err)
 
 	ts.ctx = context.Background()
@@ -128,6 +127,25 @@ func (ts *auctionBidClientTestSuite) TestGetAllHighestBidReturnsHighestBidForEac
 	ts.Require().EqualValues(users[1].DisplayName, highestBids[0].Bidder.DisplayName)
 	ts.Require().EqualValues(100, highestBids[1].BidAmount)
 	ts.Require().EqualValues(users[2].DisplayName, highestBids[1].Bidder.DisplayName)
+}
+
+func (ts *auctionBidClientTestSuite) TestDeletingAnItemRemovesBids() {
+	users, items := ts.createTestAssets()
+
+	_, err := ts.client.PlaceBid(ts.ctx, users[0], items[0], 10)
+	ts.Require().NoError(err)
+	_, err = ts.client.PlaceBid(ts.ctx, users[0], items[1], 100)
+	ts.Require().NoError(err)
+
+	highestBids, err := ts.client.GetAllHighestBids(ts.ctx)
+	ts.Require().NoError(err)
+	ts.Require().Len(highestBids, 2)
+	ts.Require().EqualValues(highestBids[0].BidAmount, 10)
+
+	ts.Require().NoError(ts.itemClient.Delete(ts.ctx, items[0].Name))
+	highestBids, err = ts.client.GetAllHighestBids(ts.ctx)
+	ts.Require().Len(highestBids, 1)
+	ts.Require().EqualValues(highestBids[0].BidAmount, 100)
 }
 
 func (ts *auctionBidClientTestSuite) createTestAssets() ([]*model.User, []*model.AuctionItem) {

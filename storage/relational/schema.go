@@ -29,8 +29,8 @@ func CreateSchema(ctx context.Context, db bun.IDB) error {
 	_, err = db.NewCreateTable().
 		Model((*AuctionBid)(nil)).
 		IfNotExists().
-		ForeignKey(`("bidder_id") REFERENCES "users" ("id")`).
-		ForeignKey(`("item_id") REFERENCES "auction_items" ("id")`).
+		ForeignKey(`("bidder_id") REFERENCES "users" ("id") ON DELETE CASCADE`).
+		ForeignKey(`("item_id") REFERENCES "auction_items" ("id") ON DELETE CASCADE`).
 		Exec(ctx)
 
 	if err != nil {

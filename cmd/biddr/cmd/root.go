@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/sqlitedialect"
-	"github.com/uptrace/bun/driver/sqliteshim"
 	"go.uber.org/zap"
+	_ "modernc.org/sqlite"
 )
 
 const databaseFileName = "biddr.db"
@@ -46,7 +46,7 @@ func Execute(defaultCommand string) {
 }
 
 func bootstrapDB(cmd *cobra.Command, args []string) error {
-	rawDB, err := sql.Open(sqliteshim.ShimName, fmt.Sprintf("file:%s?cache=shared", databaseFileName))
+	rawDB, err := sql.Open("sqlite", fmt.Sprintf("file:%s?_pragma=cache%%3Dshared&_pragma=foreign_keys%%3Dtrue", databaseFileName))
 	if err != nil {
 		return errors.Wrap(err, "unable to open database")
 	}
