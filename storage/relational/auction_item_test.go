@@ -10,7 +10,6 @@ import (
 	"github.com/stretchr/testify/suite"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/sqlitedialect"
-	"github.com/uptrace/bun/driver/sqliteshim"
 )
 
 type auctionItemClientTestSuite struct {
@@ -22,7 +21,7 @@ type auctionItemClientTestSuite struct {
 }
 
 func (ts *auctionItemClientTestSuite) SetupSuite() {
-	rawDB, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
+	rawDB, err := sql.Open("sqlite", "file::memory:?_pragma=cache%3Dshared&_pragma=foreign_keys%3Dtrue")
 	ts.Require().NoError(err)
 
 	ts.ctx = context.Background()

@@ -289,7 +289,7 @@ func (ts *auctionHandlerTestSuite) TestGetHighestBidRetrievesBidFromStorage() {
 		defer response.Body.Close()
 		rawResponse, err := io.ReadAll(response.Body)
 		ts.Require().NoError(err)
-		var bidResponse getHighestBidsResponse
+		var bidResponse getHighestBidResponse
 		ts.Require().NoError(json.Unmarshal(rawResponse, &bidResponse))
 
 		ts.Require().EqualValues(highestBid.BidAmount, bidResponse.BidAmount)
@@ -371,7 +371,7 @@ func (ts *auctionHandlerTestSuite) TestGetHighestBidsRetrievesAllBidsForEveryIte
 		defer response.Body.Close()
 		rawResponse, err := io.ReadAll(response.Body)
 		ts.Require().NoError(err)
-		var highestBids []*getHighestBidsResponse
+		var highestBids []*getHighestBidResponse
 		ts.Require().NoError(json.Unmarshal(rawResponse, &highestBids))
 
 		for i, item := range items {

@@ -48,6 +48,175 @@ definitions:
     type: object
     x-go-name: commandMessagePlaceBidDoc
     x-go-package: github.com/MMarsolek/AuctionHouse/server/controller/ws
+  getHighestBidResponse:
+    properties:
+      bidAmount:
+        description: The amount of money being bid for this item.
+        format: int64
+        type: integer
+        x-go-name: BidAmount
+      bidder:
+        $ref: '#/definitions/userResponse'
+      item:
+        $ref: '#/definitions/itemResponse'
+    required:
+    - bidAmount
+    - item
+    - bidder
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  getItemResponse:
+    properties:
+      description:
+        description: The description of the item.
+        type: string
+        x-go-name: Description
+      image:
+        description: The reference to the image source.
+        type: string
+        x-go-name: ImageRef
+      name:
+        description: The name of the item.
+        type: string
+        x-go-name: Name
+    required:
+    - name
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  getUserResponse:
+    properties:
+      displayName:
+        description: The human readable display name of the user.
+        type: string
+        x-go-name: DisplayName
+      permission:
+        $ref: '#/definitions/PermissionLevel'
+      username:
+        description: The username for the user.
+        type: string
+        x-go-name: Username
+    required:
+    - username
+    - permission
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  itemResponse:
+    properties:
+      description:
+        description: The description of the item.
+        type: string
+        x-go-name: Description
+      image:
+        description: The reference to the image source.
+        type: string
+        x-go-name: ImageRef
+      name:
+        description: The name of the item.
+        type: string
+        x-go-name: Name
+    required:
+    - name
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  postBidRequest:
+    properties:
+      bidAmount:
+        description: The amount to bid on the item for.
+        format: int64
+        type: integer
+        x-go-name: BidAmount
+    required:
+    - bidAmount
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  postItemRequest:
+    properties:
+      description:
+        description: Description of the item.
+        type: string
+        x-go-name: Description
+      image:
+        description: Reference to the image source.
+        type: string
+        x-go-name: ImageRef
+      name:
+        description: Name used to identify the item later.
+        type: string
+        x-go-name: Name
+    required:
+    - name
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  postLoginRequest:
+    properties:
+      password:
+        description: The clear text password for the user. This is not stored as cleartext
+          on the server.
+        type: string
+        x-go-name: Password
+      username:
+        description: The username for the user.
+        type: string
+        x-go-name: Username
+    required:
+    - username
+    - password
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  postLoginResponse:
+    properties:
+      authToken:
+        description: The token used to identify the user.
+        type: string
+        x-go-name: AuthToken
+      displayName:
+        description: The display name of the user.
+        type: string
+        x-go-name: DisplayName
+      permission:
+        $ref: '#/definitions/PermissionLevel'
+      username:
+        description: The username for the user.
+        type: string
+        x-go-name: Username
+    required:
+    - username
+    - permission
+    - authToken
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  postUserRequest:
+    properties:
+      displayName:
+        description: The human readable display name of the user.
+        type: string
+        x-go-name: DisplayName
+      password:
+        description: The clear text password for the user. This is not stored as cleartext
+          on the server.
+        type: string
+        x-go-name: Password
+      username:
+        description: The username for the user.
+        type: string
+        x-go-name: Username
+    required:
+    - username
+    - password
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
+  putItemRequest:
+    properties:
+      description:
+        description: Description of the item.
+        type: string
+        x-go-name: Description
+      image:
+        description: Reference to the image source.
+        type: string
+        x-go-name: ImageRef
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
   responseMessage:
     description: Defines how results are returned to the client.
     properties:
@@ -97,6 +266,20 @@ definitions:
     type: object
     x-go-name: responseMessagePlaceBidDataDoc
     x-go-package: github.com/MMarsolek/AuctionHouse/server/controller/ws
+  userResponse:
+    properties:
+      displayName:
+        description: The human readable display name of the user.
+        type: string
+        x-go-name: DisplayName
+      username:
+        description: The username for the user.
+        type: string
+        x-go-name: Username
+    required:
+    - username
+    type: object
+    x-go-package: github.com/MMarsolek/AuctionHouse/server/controller
 host: localhost
 info:
   description: |-
@@ -117,7 +300,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -138,7 +321,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -163,13 +346,13 @@ paths:
       consumes:
       - application/json
       description: |-
-        This will place a bid on the specified item. The user is identified by the authentication token. This is only
+        This will place a bid on the specified item. The user is identified by the authorization token. This is only
         available for Bidder users.
       operationId: postBidRequest
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -179,15 +362,7 @@ paths:
       - in: body
         name: Body
         schema:
-          properties:
-            bidAmount:
-              description: The amount to bid on the item for.
-              format: int64
-              type: integer
-              x-go-name: BidAmount
-          required:
-          - bidAmount
-          type: object
+          $ref: '#/definitions/postBidRequest'
       produces:
       - application/json
       responses:
@@ -211,7 +386,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -234,27 +409,12 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: body
         name: Body
         schema:
-          properties:
-            description:
-              description: Description of the item.
-              type: string
-              x-go-name: Description
-            image:
-              description: Reference to the image source.
-              type: string
-              x-go-name: ImageRef
-            name:
-              description: Name used to identify the item later.
-              type: string
-              x-go-name: Name
-          required:
-          - name
-          type: object
+          $ref: '#/definitions/postItemRequest'
       produces:
       - application/json
       responses:
@@ -277,7 +437,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -310,7 +470,7 @@ paths:
         x-go-name: Name
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -335,7 +495,7 @@ paths:
       parameters:
       - description: Expected to be "Bearer <auth_token>"
         in: header
-        name: Authentication
+        name: Authorization
         type: string
       - in: path
         name: itemName
@@ -345,22 +505,7 @@ paths:
       - in: body
         name: Body
         schema:
-          properties:
-            description:
-              description: Description of the item.
-              type: string
-              x-go-name: Description
-            image:
-              description: Reference to the image source.
-              type: string
-              x-go-name: ImageRef
-            name:
-              description: Name used to identify the item later.
-              type: string
-              x-go-name: Name
-          required:
-          - name
-          type: object
+          $ref: '#/definitions/putItemRequest'
       produces:
       - application/json
       responses:
@@ -384,6 +529,11 @@ paths:
       description: This will create a new user and add them to storage. The password
         is hashed before being stored and the text is never logged.
       operationId: postUserRequest
+      parameters:
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/postUserRequest'
       produces:
       - application/json
       responses:
@@ -432,6 +582,11 @@ paths:
       description: This will generate a new authentication token for the user specified
         by the username and password.
       operationId: postLoginRequest
+      parameters:
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/postLoginRequest'
       produces:
       - application/json
       responses:
@@ -488,223 +643,34 @@ responses:
   getHighestBidResponse:
     description: Contains data about the bid, what the item is, and who made it.
     schema:
-      properties:
-        bidAmount:
-          description: The amount of money being bid for this item.
-          format: int64
-          type: integer
-          x-go-name: BidAmount
-        bidder:
-          description: The user who bid on the item.
-          properties:
-            displayName:
-              description: The display name of the user.
-              type: string
-              x-go-name: DisplayName
-            username:
-              description: The username of the user.
-              type: string
-              x-go-name: Username
-          required:
-          - username
-          type: object
-          x-go-name: Bidder
-        item:
-          description: The item being bid on.
-          properties:
-            description:
-              description: The description of the item.
-              type: string
-              x-go-name: Description
-            image:
-              description: The reference to the image source.
-              type: string
-              x-go-name: ImageRef
-            name:
-              description: The name of the item.
-              type: string
-              x-go-name: Name
-          required:
-          - name
-          type: object
-          x-go-name: Item
-      required:
-      - bidAmount
-      - item
-      - bidder
-      type: object
+      $ref: '#/definitions/getHighestBidResponse'
   getHighestBidsResponse:
     description: Contains data about the bid, what the item is, and who made it.
     schema:
       items:
-        properties:
-          bidAmount:
-            description: The amount of money being bid for this item.
-            format: int64
-            type: integer
-            x-go-name: BidAmount
-          bidder:
-            description: The user who bid on the item.
-            properties:
-              displayName:
-                description: The display name of the user.
-                type: string
-                x-go-name: DisplayName
-              username:
-                description: The username of the user.
-                type: string
-                x-go-name: Username
-            required:
-            - username
-            type: object
-            x-go-name: Bidder
-          item:
-            description: The item being bid on.
-            properties:
-              description:
-                description: The description of the item.
-                type: string
-                x-go-name: Description
-              image:
-                description: The reference to the image source.
-                type: string
-                x-go-name: ImageRef
-              name:
-                description: The name of the item.
-                type: string
-                x-go-name: Name
-            required:
-            - name
-            type: object
-            x-go-name: Item
-        required:
-        - bidAmount
-        - item
-        - bidder
-        type: object
+        $ref: '#/definitions/getHighestBidResponse'
       type: array
   getItemResponse:
     description: Contains data about the item and how to identify them.
     schema:
-      properties:
-        description:
-          description: The description of the item.
-          type: string
-          x-go-name: Description
-        image:
-          description: The reference to the image source.
-          type: string
-          x-go-name: ImageRef
-        name:
-          description: The name of the item.
-          type: string
-          x-go-name: Name
-      required:
-      - name
-      type: object
+      $ref: '#/definitions/getItemResponse'
   getItemsResponse:
     description: Contains data about the item and how to identify them.
     schema:
       items:
-        properties:
-          description:
-            description: The description of the item.
-            type: string
-            x-go-name: Description
-          image:
-            description: The reference to the image source.
-            type: string
-            x-go-name: ImageRef
-          name:
-            description: The name of the item.
-            type: string
-            x-go-name: Name
-        required:
-        - name
-        type: object
+        $ref: '#/definitions/getItemResponse'
       type: array
   getUserResponse:
     description: Contains data about the user and how to identify them.
     schema:
-      properties:
-        displayName:
-          description: The human readable display name of the user.
-          type: string
-          x-go-name: DisplayName
-        permission:
-          $ref: '#/definitions/PermissionLevel'
-        username:
-          description: The username for the user.
-          type: string
-          x-go-name: Username
-      required:
-      - username
-      - permission
-      type: object
+      $ref: '#/definitions/getUserResponse'
   noBody:
     description: Response contains no body.
-  postLoginRequest:
-    description: Contains data about the user and how to login.
-    schema:
-      properties:
-        password:
-          description: The clear text password for the user. This is not stored as
-            cleartext on the server.
-          type: string
-          x-go-name: Password
-        username:
-          description: The username for the user.
-          type: string
-          x-go-name: Username
-      required:
-      - username
-      - password
-      type: object
   postLoginResponse:
     description: Contains all of the information to identify the user including the
       authentication token.
     schema:
-      properties:
-        authToken:
-          description: The token used to identify the user.
-          type: string
-          x-go-name: AuthToken
-        displayName:
-          description: The display name of the user.
-          type: string
-          x-go-name: DisplayName
-        permission:
-          $ref: '#/definitions/PermissionLevel'
-        username:
-          description: The username for the user.
-          type: string
-          x-go-name: Username
-      required:
-      - username
-      - permission
-      - authToken
-      type: object
-  postUserRequest:
-    description: Contains data about the user and how to identify them.
-    schema:
-      properties:
-        displayName:
-          description: The human readable display name of the user.
-          type: string
-          x-go-name: DisplayName
-        password:
-          description: The clear text password for the user. This is not stored as
-            cleartext on the server.
-          type: string
-          x-go-name: Password
-        username:
-          description: The username for the user.
-          type: string
-          x-go-name: Username
-      required:
-      - username
-      - password
-      type: object
+      $ref: '#/definitions/postLoginResponse'
   wsConnection:
     description: Response contains no body.
 schemes:
