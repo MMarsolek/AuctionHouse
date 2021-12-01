@@ -6,14 +6,12 @@ export default class MakeBid extends Component{
 
     state={
         bid : 0,
-        itemName : ''
     }
 
-    handleClick = async event => {
+    handleSubmit = async event => {
 
         event.preventDefault();
-        this.setState({itemName : this.props.MakeBid});
-        await biddrClient.userLogIn(this.state.itemName, this.state.bid);
+        await biddrClient.makeBid(this.props.itemName, this.state.bid);
     }
 
     handleBidChange = event => {
@@ -22,15 +20,17 @@ export default class MakeBid extends Component{
 
     render(){
         return(
-            <div className='bid-maker'>
-                <input type="number" className = 'bid-amount' onChange={this.setState.bid}>
-                    Bid Amount
-                </input>
-                <button className= 'bid-button' onClick={this.handleClick}> Make Bid
-
-                </button>
-            </div>    
-        
+            <form onSubmit={this.handleSubmit} className="bid-form">
+                <div className='bid-maker'>
+                    <div className= 'bid-input'>
+                    <label className="bid-input"><span className="bid-label">Bid</span></label>
+                    <input type="number" className = 'bid-amount' onChange={this.handleBidChange} placeholder='Bid Amount'/>
+                    </div>
+                    <div className="bid-submit">
+                        <input type="submit" value="Place Bid" className='bid-button'/>
+                    </div>
+                </div>    
+            </form>
         );
     };
 }

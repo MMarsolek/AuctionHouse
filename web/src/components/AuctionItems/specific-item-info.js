@@ -4,15 +4,15 @@ import MakeBid from './Bid/make-bid'
 
 
 
+
 export default class SpecificItem extends Component{
 
     state = {clicked: false}
 
     handleClick = () => {
         this.setState({ clicked : !this.state.clicked })
-        
-
     }
+    
 
     render(){
         return(
@@ -21,24 +21,27 @@ export default class SpecificItem extends Component{
                     <div className="specific-item-list">
                         <ul className= 'unordered-list'>    
                             <li className="items-name"  onClick={this.handleClick }> Item Name: {
-                                this.props.itemInfo['name'] 
+                                this.props.itemInfo['name']
+                                // this.props.bidAmount 
                             } 
                             </li>
-                            
+                            <div className= 'description-and-image'>
                             {
                                 this.state.clicked &&
-                                <li className="items-description"> Description: 
-                                {this.props.itemInfo['description']}
-                                <MakeBid itemName={this.props.itemInfo['name']}/>
-                                </li>
-                                
+                                    <li className="items-description"> Description: 
+                                    {this.props.itemInfo['description']}
+                                    </li>
+                                    
                                 }
                                 {this.props.itemInfo['image'] &&
                                     this.state.clicked  &&
                                 <li className="items-image" >
                                     <img src= {this.props.itemInfo['image']} />
+                                    <MakeBid itemName={this.props.itemInfo['name']}/>
                                 </li>
+                                
                             }
+                            </div>
 
                         </ul>
                     </div>
