@@ -26,23 +26,23 @@ export default class UserCreation extends Component{
 
     render(){
         return (
-            <div className="flex">
+            <div className="login-flex">
                 <div className= "logo" > User Creation</div>
-                <div className="container">
+                <div className="login-container">
                     <form onSubmit={this.handleSubmit} className="login-form">
                         <div className= "form-field">
                         <label className="username"><span className="hidden">Username</span></label>
-                            <input type="text" name="name" onChange={this.handleUserChange} className= "form-input"
+                            <input type="text" name="name" onChange={this.handleUserChange} className= "form-login"
                             placeholder="Username" required/>
                         </div>
                         <div className="form form-field">
                             <label className="lock" htmlFor="login-password"><span className="hidden">Password</span></label>
-                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-input" placeholder="Password" required/>
+                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-login" placeholder="Password" required/>
                         </div>
 
                         <div className="form form-field">
                             <label className="display-name"><span className="hidden">Display Name</span></label>
-                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-input" placeholder="Display Name" required/>
+                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-login" placeholder="Display Name" required/>
                         </div>
 
                         <div className="form-field">

@@ -29,8 +29,8 @@ export default class AddItems extends Component{
 
     render(){
         return(
-            <div className = "addition-flex">
-                <div className = "add-new-item">
+            <div className = "login-flex">
+                <div className = "login-container">
                 <form onSubmit={this.handleSubmit} className="flex">
                         <div className= "description form-field">
                         <label className="description"><span className="hidden">Description</span></label>

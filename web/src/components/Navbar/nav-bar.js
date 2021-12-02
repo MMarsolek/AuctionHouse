@@ -31,10 +31,10 @@ class Navbar extends Component {
                 <div className="MenuIcon" onClick={this.handleClick}>
                     <i className = { this.state.clicked ? "fas fa-times" : "fas fa-bars"}></i>  
                 </div>
-                { this.context.user && <Link to="/auctions">Auctions</Link>}
-                { this.context.user?.permission === 'Admin' && <Link to="/createUser">Create User</Link> }
-                { this.context.user?.permission === 'Admin' && <Link to="/createItem">Create Item</Link>}
-                { this.context.user && <button onClick={this.handleLogout}>Logout</button>}
+                { this.context.user && <Link to="/auctions" className='NavLinks'>Auctions</Link>}
+                { this.context.user?.permission === 'Admin' && <Link to="/createUser"className='NavLinks'>Create User</Link> }
+                { this.context.user?.permission === 'Admin' && <Link to="/createItem"className='NavLinks'>Create Item</Link>}
+                { this.context.user && <button onClick={this.handleLogout}className='SignOutNavLinks'>Logout</button>}
             </nav>
         )
     }
