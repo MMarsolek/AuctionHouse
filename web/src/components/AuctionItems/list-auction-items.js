@@ -8,14 +8,17 @@ import SpecificItem from  './specific-item-info'
 export default class ListItems extends Component{
     state = {
         allItems: [],
-        bidAmount: 0
     }
     handleSubmit = async event => {
         event.preventDefault();
-            this.setState({allItems: (await biddrClient.getAllItems())}),
-            this.setState({bidAmount: (await biddrClient.getHighestBidForAll()['bidAmount']
-                )})
+        const itemMap = (await biddrClient.getAllItems()).reduce((prev, cur) => {prev[cur.name] = cur; return prev}, {});
+        (await biddrClient.getHighestBidForAll()).forEach(bidInfo => {
+            const item = itemMap[bidInfo.item.name];
+            item.bidAmount = bidInfo.bidAmount;
+            item.bidder = bidInfo.bidder;
+        })
 
+            this.setState({allItems: (Object.values(itemMap))})
             // console.log(await biddrClient.getAllItems())
     };
 
@@ -34,7 +37,6 @@ export default class ListItems extends Component{
                                    {
                                     return(<li key= {item.name}>
                                         <SpecificItem itemInfo={item}/>
-                                        {/* <SpecificItem bidAmount={this.state.bidAmount}/> */}
                                         </li> )
                                 })}
                             </ul>

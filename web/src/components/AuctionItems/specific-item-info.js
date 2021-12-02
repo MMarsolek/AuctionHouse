@@ -21,10 +21,14 @@ export default class SpecificItem extends Component{
                     <div className="specific-item-list">
                         <ul className= 'unordered-list'>    
                             <li className="items-name"  onClick={this.handleClick }> Item Name: {
-                                this.props.itemInfo['name']
-                                // this.props.bidAmount 
+                                this.props.itemInfo['name'] 
                             } 
                             </li>
+                            
+                            <li className='bid-amount'>
+                                Current Bid: {this.props.itemInfo['bidAmount']}
+                            </li>
+                            
                             <div className= 'description-and-image'>
                             {
                                 this.state.clicked &&
@@ -36,7 +40,7 @@ export default class SpecificItem extends Component{
                                 {this.props.itemInfo['image'] &&
                                     this.state.clicked  &&
                                 <li className="items-image" >
-                                    <img src= {this.props.itemInfo['image']} />
+                                    <img src= {this.props.itemInfo['image']} width='300' height='200' />
                                     <MakeBid itemName={this.props.itemInfo['name']}/>
                                 </li>
                                 

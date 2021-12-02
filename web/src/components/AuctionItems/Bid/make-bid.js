@@ -5,12 +5,12 @@ import biddrClient from '../../../biddrClient/biddrClient';
 export default class MakeBid extends Component{
 
     state={
-        bid : 0,
+        bid : 0.00
     }
 
     handleSubmit = async event => {
-
         event.preventDefault();
+        console.log('Bid Made!')
         await biddrClient.makeBid(this.props.itemName, this.state.bid);
     }
 
@@ -20,17 +20,13 @@ export default class MakeBid extends Component{
 
     render(){
         return(
-            <form onSubmit={this.handleSubmit} className="bid-form">
-                <div className='bid-maker'>
-                    <div className= 'bid-input'>
-                    <label className="bid-input"><span className="bid-label">Bid</span></label>
-                    <input type="number" className = 'bid-amount' onChange={this.handleBidChange} placeholder='Bid Amount'/>
-                    </div>
-                    <div className="bid-submit">
-                        <input type="submit" value="Place Bid" className='bid-button'/>
-                    </div>
-                </div>    
-            </form>
+            <div className='bid-input'>
+                <label className="bid-input"><span className="bid-label">Bid</span></label>
+                <input type="number" className = 'bid-amount' onChange={this.handleBidChange} placeholder='Bid Amount'/>
+                <div className="bid-submit">
+                    <button type="button" onClick={this.handleSubmit}>Place Bid</button>
+                </div>
+            </div>
         );
     };
 }

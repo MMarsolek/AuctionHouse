@@ -6,6 +6,8 @@ import ListItems from './components/AuctionItems/list-auction-items';
 import UserLogIn  from './components/UserSignIn/user-login';
 import MakeBid  from './components/AuctionItems/Bid/make-bid';
 import { CookiesProvider } from 'react-cookie'
+import UserCreation from './components/UserManagement/user-creation'
+
 
 
 function App(){
@@ -16,6 +18,7 @@ function App(){
             <UserLogIn />
             <AddItems />
             <ListItems />
+            <UserCreation/>
         </CookiesProvider>
             
     )

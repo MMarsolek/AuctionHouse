@@ -28,6 +28,7 @@ align-content: center;
     size: 12px;
     padding: 3px;
     margin: 5px;
+    color: black;
 }
 .bid-label{
     padding-left: 3px;
@@ -39,19 +40,20 @@ align-content: center;
 
 }
 
-.bid-maker{
-    background: #00B9BC;
+.bid-input{
+    background: rgb(33, 85, 122);
     padding: 10px;
     align-self: left;
     align-items: right;
 
 }
 
-.bid-button{
+.bid-submit{
     padding: 4px;
     font-size: 12;
     background-color: rgb(33, 85, 122);
     color: whitesmoke;
+    cursor: pointer;
 }
 
 input::-webkit-outer-spin-button,
@@ -81,16 +83,13 @@ input::-webkit-inner-spin-button {
 .items-image{
     align-items: left;
     background: #00B9BC;
-    max-width: fit-content;
-    max-height: fit-content;
 }
 
 .description-and-image{
-    padding: 10px;
+    margin: 10px;
     display: flex;
     flex-direction: row-reverse;
-    align-content: space-between;
-    
+    /* align-content: space-between; */
     background: #00B9BC;
     align-content: space-around;
 }
@@ -99,7 +98,7 @@ input::-webkit-inner-spin-button {
 .items-name:hover{
     background-color: rgb(35,125, 190);
     transition: 250ms;
-    font-size: larger;
+    font-size: 14px;
     cursor: pointer;
 }
 
