@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import biddrClient from '../../biddrClient/biddrClient'
+import { withNotifications } from '../../utils'
 import './auction-items.css'
 import '../UserSignIn/user-login.scss'
 
 
-export default class AddItems extends Component{
+export default withNotifications(class AddItems extends Component{
     state = {
         description: '',
         image: '',
@@ -25,6 +26,7 @@ export default class AddItems extends Component{
     handleSubmit = event => {
         event.preventDefault();
         biddrClient.createNewItem(this.state.description, this.state.image, this.state.name)
+        this.props.notify('Item created', 'info');
     };
 
     render(){
@@ -40,7 +42,7 @@ export default class AddItems extends Component{
 
                         <div className="image form-field">
                             <label className="image"><span className="hidden">Image Link</span></label>
-                            <input id="image-link" type="text"  onChange={this.handleImageChange} className="form-input" placeholder="Image Link" />
+                            <input type="text"  onChange={this.handleImageChange} className="form-input" placeholder="Image Link" />
                         </div>
 
                         <div className="name form-field">
@@ -55,4 +57,4 @@ export default class AddItems extends Component{
             </div>
         );
     };
-}
+});

@@ -1,5 +1,6 @@
 
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import NotificationSystem, { NotificationsProvider, atalhoTheme, useNotifications, setUpNotifications } from 'reapop';
 import { AuthProvider } from './auth-provider';
@@ -44,4 +45,5 @@ setUpNotifications({
     }
 });
 
+Modal.setAppElement('#app');
 ReactDOM.render(App(), document.getElementById('app'));
