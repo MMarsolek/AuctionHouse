@@ -27,7 +27,7 @@ class MakeBid extends Component{
         return(
             <div className='bid-input'>
                 <label className="bid-input"><span className="bid-label">Bid</span></label>
-                <input type="number" className = 'bid-amount' onChange={this.handleBidChange} placeholder='Bid Amount'/>
+                <input type="number" className='bid-placement' onChange={this.handleBidChange} placeholder='Bid Amount'/>
                 <div className="bid-submit">
                     <button type="button" onClick={this.handleSubmit}>Place Bid</button>
                 </div>
