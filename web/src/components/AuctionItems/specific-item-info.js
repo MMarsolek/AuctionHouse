@@ -100,7 +100,7 @@ class SpecificItem extends Component {
     render(){
         return(
             <div className="all-item-flex">
-                { this.context.user.permission === 'Admin' && <button onClick={() => this.setItemModalState(true)}>Edit Item</button> }
+                { this.context.user?.permission === 'Admin' && <button onClick={() => this.setItemModalState(true)}>Edit Item</button> }
                 <UpdateItemModal 
                     isOpen={this.state.itemModalOpen}
                     setItemModalState={this.setItemModalState}
@@ -110,10 +110,7 @@ class SpecificItem extends Component {
                 <div className="list-items-form-field">
                     <div className="specific-item-list">
                         <ul className= 'unordered-list'>
-                            <li className="items-name"  onClick={this.handleClick }> Item Name: {
-                                this.state.item.name
-                            } 
-                            </li>
+                            <li className="items-name"  onClick={this.handleClick }>{this.state.item.name}</li>
                             
                             <li className='bid-amount'>
                                 Current Bid: {this.state.item.bidAmount}
@@ -122,8 +119,8 @@ class SpecificItem extends Component {
                             <div className= 'description-and-image'>
                             {
                                 this.state.clicked &&
-                                    <li className="items-description"> Description: 
-                                    {this.state.item.description}
+                                    <li className="items-description">
+                                    {this.state.item.description || 'No description'}
                                     </li>
                                 }
                                 {this.state.item.image &&

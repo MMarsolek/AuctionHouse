@@ -3,8 +3,7 @@
 }
 
 .login-form{
-align-content: center;
-
+    align-content: center;
 }
 
 .specific-item-list{
@@ -28,7 +27,7 @@ align-content: center;
     size: 12px;
     padding: 3px;
     margin: 5px;
-    color: black;
+    color: whitesmoke;
 }
 .bid-label{
     padding-left: 3px;
@@ -64,21 +63,21 @@ input::-webkit-inner-spin-button {
 
 .unordered-list{
     list-style-type: none;
-
+    display: flex;
+    flex-direction: column;
 }
 
 .items-name{
     padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .items-description{
-    align-content: right;
-    align-self: right;
-    text-align: right;
-    align-items: right;
     background: #00B9BC;
     padding-left: 10px;
     padding-right: 10px;
+    flex: 1 0 auto;
 }
 .items-image{
     align-items: left;
@@ -86,7 +85,6 @@ input::-webkit-inner-spin-button {
 }
 
 .description-and-image{
-    margin: 10px;
     display: flex;
     flex-direction: row-reverse;
     /* align-content: space-between; */
@@ -98,7 +96,7 @@ input::-webkit-inner-spin-button {
 .items-name:hover{
     background-color: rgb(35,125, 190);
     transition: 250ms;
-    font-size: 14px;
+    font-size: 36px;
     cursor: pointer;
 }
 
