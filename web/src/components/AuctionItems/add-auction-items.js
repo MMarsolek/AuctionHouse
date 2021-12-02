@@ -32,6 +32,7 @@ export default withNotifications(class AddItems extends Component{
     render(){
         return(
             <div className = "login-flex">
+                <div className= "logo" > Create Item</div>
                 <div className = "login-container">
                 <form onSubmit={this.handleSubmit} className="flex">
                         <div className= "description form-field">
