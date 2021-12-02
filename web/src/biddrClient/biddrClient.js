@@ -24,24 +24,24 @@ class BiddrClient{
         if(body){
             myParameters['data'] = body;
         };
-        const myResults = await axios(myParameters);
-        
-        return myResults.data;
+        return await axios(myParameters);
     }
 
     async createUser(user, display, pass){
-        return await this.requestConfig('/api/v1/users/', 'post', {
+        const response = await this.requestConfig('/api/v1/users/', 'post', {
             body: {
             username: user,
             password: pass,
             displayName: display
-        }})
+        }});
+
+        return response.data;
     }
 
     async getUserInformation(userName){
         const encodedUser = encodeURIComponent(userName)
         const response = await  this.requestConfig(`/api/v1/users/${encodedUser}`, 'get');
-        return response;
+        return response.data;
     }
 
     async userLogIn(username, password){
@@ -51,72 +51,85 @@ class BiddrClient{
             password: password,
             
         }});
-        this.userAuth = response['authToken'];
-        return response;
+        const data = response.data;
+        this.userAuth = data['authToken'];
+        return data;
     }
 
     async userLogout() {
         this.authToken = '';
     }
 
-    returnHeaders(){
-        return ({'authorization':'Bearer ' + this.userAuth})
-    }
-
     async getHighestBidForAll(){
-        return await this.requestConfig('/api/v1/auctions/bids', 'get');
+        const response = await this.requestConfig('/api/v1/auctions/bids', 'get');
+        return response.data;
      }
 
     async getHighestBidForOneItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'get');
+        const response = await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'get');
+        return response.data;
     }
 
     async makeBid(name, bid){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'post', {
+        const response = await this.requestConfig(`/api/v1/auctions/bids/${encodedItem}`, 'post', {
             body: {bidAmount: bid},
         });
+
+
+        if (response.status === 403) {
+            throw new Error('user does not have permissions to place a bid');
+        } else if (response.status === 400) {
+            throw new Error(response.data.message);
+        }
+        return response.data;
     }
     
     async getAllItems(){
-        return await this.requestConfig(`/api/v1/auctions/items`, 'get')
+        const response = await this.requestConfig(`/api/v1/auctions/items`, 'get');
+        return response.data;
     }
 
     async createNewItem(description, image, name){
         console.log(name);
-        return await this.requestConfig('/api/v1/auctions/items', 'post', {
+        const response = await this.requestConfig('/api/v1/auctions/items', 'post', {
             body:
             {   description,
                 image,
                 name
             },
         });
+        return response.data;
     }
 
     async deleteItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'delete');
+        const response = await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'delete');
+        return response.data;
     }
 
     async getSpecificItem(name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'get');
+        const response = await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'get');
+        return response.data;
     }
 
     async updateItem(description, image, name){
         const encodedItem = encodeURIComponent(name)
-        return await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'put', {
+        const response = await this.requestConfig(`/api/v1/auctions/items/${encodedItem}`, 'put', {
             body: {
                 description: description,
                 image: image,
                 name: name
             }
         });
+        return response.data;
     }
 
     async establishWebSocket(){
-        return await this.requestConfig('/api/v1/ws', 'get');
+        const response = await this.requestConfig('/api/v1/ws', 'get');
+        return response.data;
     }
 
 }

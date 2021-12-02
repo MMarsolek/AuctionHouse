@@ -19,7 +19,7 @@ export default class ListItems extends Component{
             const item = itemMap[bidInfo.item.name];
             item.bidAmount = bidInfo.bidAmount;
             item.bidder = bidInfo.bidder;
-        })
+        });
 
         this.setState({allItems: (Object.values(itemMap))})
     };

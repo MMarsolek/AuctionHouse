@@ -1,8 +1,9 @@
 import { Component } from 'react';
+import { withNotifications } from '../../../utils';
 import biddrClient from '../../../biddrClient/biddrClient';
 
 
-export default class MakeBid extends Component{
+class MakeBid extends Component{
 
     state = {
         bid : 0.00
@@ -10,7 +11,12 @@ export default class MakeBid extends Component{
 
     handleSubmit = async event => {
         event.preventDefault();
-        await biddrClient.makeBid(this.props.itemName, this.state.bid);
+        try {
+            await biddrClient.makeBid(this.props.itemName, this.state.bid);
+            this.props.updateItem({ bidAmount: this.state.bid});
+        } catch (ex) {
+            this.props.notify(`Unable to make a bid: ${ex.message}`, 'error');
+        }
     }
 
     handleBidChange = event => {
@@ -29,3 +35,5 @@ export default class MakeBid extends Component{
         );
     };
 }
+
+export default withNotifications(MakeBid);

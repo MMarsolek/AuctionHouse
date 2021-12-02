@@ -7,12 +7,25 @@ import MakeBid from './Bid/make-bid'
 
 export default class SpecificItem extends Component{
 
-    state = {clicked: false}
+    state = {
+        clicked: false,
+        item: {},
+    }
+
+    constructor(props) {
+        super(props);
+        this.state.item = props.itemInfo;
+        this.updateItem = this.updateItem.bind(this);
+    }
 
     handleClick = () => {
         this.setState({ clicked : !this.state.clicked })
     }
-    
+
+    updateItem(itemChanges) {
+        this.setState({ item: { ...this.state.item, ...itemChanges }})
+    }
+
 
     render(){
         return(
@@ -21,27 +34,27 @@ export default class SpecificItem extends Component{
                     <div className="specific-item-list">
                         <ul className= 'unordered-list'>
                             <li className="items-name"  onClick={this.handleClick }> Item Name: {
-                                this.props.itemInfo['name'] 
+                                this.state.item.name
                             } 
                             </li>
                             
                             <li className='bid-amount'>
-                                Current Bid: {this.props.itemInfo.bidAmount}
+                                Current Bid: {this.state.item.bidAmount}
                             </li>
                             
                             <div className= 'description-and-image'>
                             {
                                 this.state.clicked &&
                                     <li className="items-description"> Description: 
-                                    {this.props.itemInfo['description']}
+                                    {this.state.item.description}
                                     </li>
                                     
                                 }
-                                {this.props.itemInfo['image'] &&
+                                {this.state.item.image &&
                                     this.state.clicked  &&
                                 <li className="items-image" >
-                                    <img src={this.props.itemInfo.image} width='300' height='200' alt="" />
-                                    <MakeBid itemName={this.props.itemInfo.name}/>
+                                    <img src={this.state.item.image} width='300' height='200' alt="" />
+                                    <MakeBid itemName={this.state.item.name} updateItem={this.updateItem} />
                                 </li>
                                 
                             }

@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../auth-provider';
+import { withRoutingFields } from '../../utils';
 import "./nav-bar.css"
 
 class Navbar extends Component {
@@ -39,11 +40,5 @@ class Navbar extends Component {
     }
 }
 
-const withRoutingFields = (Component) => {
-    return props => {
-        const location = useLocation();
-        return <Component {...props} location={location} />
-    }
-}
 
 export default withRoutingFields(Navbar);
