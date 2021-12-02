@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import biddrClient from '../../biddrClient/biddrClient'
 import './auction-items.css'
+import '../UserSignIn/user-login.scss'
+
 
 export default class AddItems extends Component{
     state = {
@@ -29,7 +31,7 @@ export default class AddItems extends Component{
         return(
             <div className = "addition-flex">
                 <div className = "add-new-item">
-                <form onSubmit={this.handleSubmit} className="add-item-form">
+                <form onSubmit={this.handleSubmit} className="flex">
                         <div className= "description form-field">
                         <label className="description"><span className="hidden">Description</span></label>
                             <input type="text" name="name" onChange={this.handleDescriptionChange} className= "form-input"

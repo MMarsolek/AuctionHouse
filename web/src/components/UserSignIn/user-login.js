@@ -25,7 +25,7 @@ import './user-login.scss'
 
     render(){
         return (
-            <div className="login-flex">
+            <div className="flex">
                 { this.context.user && <Navigate to="/auctions" replace={true} />}
                 <div className= "logo" >AuctionHouse Log In</div>
                 <div className="login-container">

@@ -1,5 +1,6 @@
 import biddrClient from '../../biddrClient/biddrClient'
 import { Component } from 'react';
+import '../UserSignIn/user-login.scss'
 
 export default class UserCreation extends Component{
     state = {
@@ -25,17 +26,17 @@ export default class UserCreation extends Component{
 
     render(){
         return (
-            <div className="login-flex">
+            <div className="flex">
                 <div className= "logo" > User Creation</div>
-                <div className="user-creator-container">
-                    <form onSubmit={this.handleSubmit} className="creation-form">
+                <div className="container">
+                    <form onSubmit={this.handleSubmit} className="login-form">
                         <div className= "form-field">
-                        <label className="username-creation"><span className="hidden">Username</span></label>
+                        <label className="username"><span className="hidden">Username</span></label>
                             <input type="text" name="name" onChange={this.handleUserChange} className= "form-input"
                             placeholder="Username" required/>
                         </div>
                         <div className="form form-field">
-                            <label className="password-creator" htmlFor="login-password"><span className="hidden">Password</span></label>
+                            <label className="lock" htmlFor="login-password"><span className="hidden">Password</span></label>
                             <input id="password" type="password"  onChange={this.handlePassChange} className="form-input" placeholder="Password" required/>
                         </div>
 
