@@ -1,12 +1,15 @@
 import { Component } from 'react';
+import  { withCookies } from 'react-cookie'
+import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../../auth-provider';
 import './user-login.scss'
-import biddrClient from '../../biddrClient/biddrClient'
-import  {withCookies} from 'react-cookie'
 
  class UserLogIn extends Component{
+    static contextType = AuthContext;
     state = {
         name: '',
         pass: '',
+        proceed: false,
     }
 
 
@@ -17,19 +20,24 @@ import  {withCookies} from 'react-cookie'
         this.setState({pass: event.target.value});
     }
     
-    
     handleSubmit = async event => {
         event.preventDefault();
-        await biddrClient.userLogIn(this.state.name, this.state.pass);
-        this.props.cookies.set("token", biddrClient.userAuth);
+        if (await this.context.login(this.state.name, this.state.pass)) {
+            this.setState({proceed: true});
+        }
+    }
+
+    async componentDidMount() {
+        const wasSuccessful = await this.context.refreshSession();
+        if (wasSuccessful) {
+            this.setState({proceed: true});
+        }
     }
 
     render(){
-        if(!biddrClient.userAuth){
-            biddrClient.userAuth = this.props.cookies.get("token")
-        }
         return (
             <div className="login-flex">
+                { this.state.proceed && <Navigate to="/auctions" replace={true} />}
                 <div className= "logo" > AuctionHouse Log In</div>
                 <div className="login-container">
                     <form onSubmit={this.handleSubmit} className="login-form">

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 class BiddrClient{
 
@@ -42,7 +42,7 @@ class BiddrClient{
         const encodedUser = encodeURIComponent(userName)
         const response = await  this.requestConfig(`/api/v1/users/${encodedUser}`, 'get');
         return response;
-    }1
+    }
 
     async userLogIn(username, password){
         const response = await this.requestConfig('/api/v1/users/login', 'post',{
@@ -55,12 +55,16 @@ class BiddrClient{
         return response;
     }
 
+    async userLogout() {
+        this.authToken = '';
+    }
+
     returnHeaders(){
         return ({'authorization':'Bearer ' + this.userAuth})
     }
 
     async getHighestBidForAll(){
-        return await this.requestConfig('/api/v1/auctions/bids', 'get',{headers: this.returnHeaders});
+        return await this.requestConfig('/api/v1/auctions/bids', 'get');
      }
 
     async getHighestBidForOneItem(name){
