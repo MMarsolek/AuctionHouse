@@ -51,6 +51,11 @@ class BiddrClient{
             password: password,
             
         }});
+
+        if (response.status !== 200) {
+            throw new Error('unsuccessful login attempt');
+        }
+
         const data = response.data;
         this.userAuth = data['authToken'];
         return data;

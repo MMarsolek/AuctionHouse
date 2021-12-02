@@ -2,6 +2,7 @@ import { Component } from 'react';
 import  { withCookies } from 'react-cookie'
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../auth-provider';
+import { withNotifications } from '../../utils';
 import './user-login.scss'
 
  class UserLogIn extends Component{
@@ -20,7 +21,10 @@ import './user-login.scss'
     
     handleSubmit = async event => {
         event.preventDefault();
-        await this.context.login(this.state.name, this.state.pass)
+        const loginSuccessful = await this.context.login(this.state.name, this.state.pass)
+        if (!loginSuccessful) {
+            this.props.notify('Login not found or password was incorrect', 'error');
+        }
     }
 
     render(){
@@ -50,4 +54,4 @@ import './user-login.scss'
     }
 }
 
-export default withCookies(UserLogIn)
+export default withNotifications(withCookies(UserLogIn));
