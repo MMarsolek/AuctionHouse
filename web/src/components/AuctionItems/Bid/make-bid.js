@@ -4,18 +4,17 @@ import biddrClient from '../../../biddrClient/biddrClient';
 
 export default class MakeBid extends Component{
 
-    state={
+    state = {
         bid : 0.00
     }
 
     handleSubmit = async event => {
         event.preventDefault();
-        console.log('Bid Made!')
         await biddrClient.makeBid(this.props.itemName, this.state.bid);
     }
 
     handleBidChange = event => {
-        this.setState({bid: event.target.value});
+        this.setState({bid: parseInt(event.target.value)});
     }
 
     render(){

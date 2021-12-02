@@ -9,9 +9,7 @@ import './user-login.scss'
     state = {
         name: '',
         pass: '',
-        proceed: false,
     }
-
 
     handleUserChange = event => {
         this.setState({name: event.target.value});
@@ -22,23 +20,14 @@ import './user-login.scss'
     
     handleSubmit = async event => {
         event.preventDefault();
-        if (await this.context.login(this.state.name, this.state.pass)) {
-            this.setState({proceed: true});
-        }
-    }
-
-    async componentDidMount() {
-        const wasSuccessful = await this.context.refreshSession();
-        if (wasSuccessful) {
-            this.setState({proceed: true});
-        }
+        await this.context.login(this.state.name, this.state.pass)
     }
 
     render(){
         return (
             <div className="login-flex">
-                { this.state.proceed && <Navigate to="/auctions" replace={true} />}
-                <div className= "logo" > AuctionHouse Log In</div>
+                { this.context.user && <Navigate to="/auctions" replace={true} />}
+                <div className= "logo" >AuctionHouse Log In</div>
                 <div className="login-container">
                     <form onSubmit={this.handleSubmit} className="login-form">
                         <div className= "form-field">

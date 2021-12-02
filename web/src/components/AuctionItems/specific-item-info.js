@@ -19,14 +19,14 @@ export default class SpecificItem extends Component{
             <div className = "all-item-flex">
                 <div className="list-items-form-field">
                     <div className="specific-item-list">
-                        <ul className= 'unordered-list'>    
+                        <ul className= 'unordered-list'>
                             <li className="items-name"  onClick={this.handleClick }> Item Name: {
                                 this.props.itemInfo['name'] 
                             } 
                             </li>
                             
                             <li className='bid-amount'>
-                                Current Bid: {this.props.itemInfo['bidAmount']}
+                                Current Bid: {this.props.itemInfo.bidAmount}
                             </li>
                             
                             <div className= 'description-and-image'>
@@ -40,8 +40,8 @@ export default class SpecificItem extends Component{
                                 {this.props.itemInfo['image'] &&
                                     this.state.clicked  &&
                                 <li className="items-image" >
-                                    <img src= {this.props.itemInfo['image']} width='300' height='200' />
-                                    <MakeBid itemName={this.props.itemInfo['name']}/>
+                                    <img src={this.props.itemInfo.image} width='300' height='200' alt="" />
+                                    <MakeBid itemName={this.props.itemInfo.name}/>
                                 </li>
                                 
                             }

@@ -1,6 +1,6 @@
 
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './auth-provider';
 import Navbar from './components/Navbar/nav-bar';
 import AddItems from './components/AuctionItems/add-auction-items';
@@ -9,12 +9,10 @@ import UserLogIn  from './components/UserSignIn/user-login';
 import { CookiesProvider } from 'react-cookie';
 import UserCreation from './components/UserManagement/user-creation';
 
-
-
-function App(){
+function App() {
     return (
         <CookiesProvider>
-            <BrowserRouter>
+            <HashRouter>
                 <AuthProvider>
                     <Navbar />
                     <Routes>
@@ -24,7 +22,7 @@ function App(){
                         <Route path="/createItem" element={<AddItems />} />
                     </Routes>
                 </AuthProvider>
-            </BrowserRouter>
+            </HashRouter>
         </CookiesProvider>
     )
 }
