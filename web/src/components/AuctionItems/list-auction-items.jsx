@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../auth-provider';
 import biddrClient from '../../biddrClient/biddrClient';
-import './auction-items.css';
+import './auction-items.scss';
 import SpecificItem from  './specific-item-info';
 
 

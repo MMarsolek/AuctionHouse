@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../auth-provider';
 import { withRoutingFields } from '../../utils';
-import "./nav-bar.css"
+import "./nav-bar.scss"
 
 class Navbar extends Component {
     static contextType = AuthContext;
@@ -34,7 +34,13 @@ class Navbar extends Component {
                 { this.context.user && <Link to="/auctions" className='NavLinks'>Auctions</Link>}
                 { this.context.user?.permission === 'Admin' && <Link to="/createUser"className='NavLinks'>Create User</Link> }
                 { this.context.user?.permission === 'Admin' && <Link to="/createItem"className='NavLinks'>Create Item</Link>}
-                { this.context.user && <button onClick={this.handleLogout}className='SignOutNavLinks'>Logout</button>}
+                { this.context.user && (
+                <div className= 'welcome-bar'>
+                    <label className='welcome'> Welcome {this.context.user.displayName}!</label>
+                    <button onClick={this.handleLogout}className='SignOutNavLinks'>Logout</button>
+                    
+                </div>
+                    )}
             </nav>
         )
     }

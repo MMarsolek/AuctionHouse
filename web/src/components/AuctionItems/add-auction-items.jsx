@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import biddrClient from '../../biddrClient/biddrClient'
 import { withNotifications } from '../../utils'
-import './auction-items.css'
-import '../UserSignIn/user-login.scss'
+import './auction-items.scss'
+import '../UserSignIn/user-login'
 
 
 export default withNotifications(class AddItems extends Component{
@@ -32,23 +32,23 @@ export default withNotifications(class AddItems extends Component{
     render(){
         return(
             <div className = "login-flex">
-                <div className= "logo" > Create Item</div>
-                <div className = "login-container">
-                <form onSubmit={this.handleSubmit} className="flex">
-                        <div className= "description form-field">
-                        <label className="description"><span className="hidden">Description</span></label>
-                            <input type="text" name="name" onChange={this.handleDescriptionChange} className= "form-input"
+                <div className="logo"> Create Item</div>
+                <div className="login-container">
+                <form onSubmit={this.handleSubmit} className="login-form">
+                        <div className="description form-field">
+                        <label className="description">Description</label>
+                            <input type="text" name="name" onChange={this.handleDescriptionChange} className="form-input"
                             placeholder="Description" />
                         </div>
 
                         <div className="image form-field">
-                            <label className="image"><span className="hidden">Image Link</span></label>
+                            <label className="image">Image Link</label>
                             <input type="text"  onChange={this.handleImageChange} className="form-input" placeholder="Image Link" />
                         </div>
 
                         <div className="name form-field">
-                            <label className="item-name"><span className="hidden">Name</span></label>
-                            <input type="text" name="name" onChange={this.handleNameChange} className= "form-input" placeholder="Item Name" required/>
+                            <label className="item-name">Name</label>
+                            <input type="text" name="name" onChange={this.handleNameChange} className="form-input" placeholder="Item Name" required/>
                         </div>
                         <div className="form-field">
                             <input type="submit" value="Add Item"/>

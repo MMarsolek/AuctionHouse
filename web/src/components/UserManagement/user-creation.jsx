@@ -1,12 +1,12 @@
 import biddrClient from '../../biddrClient/biddrClient'
 import { Component } from 'react';
-import '../UserSignIn/user-login.scss'
+import '../UserSignIn/user-login';
 
 export default class UserCreation extends Component{
     state = {
         username: '',
         password: '',
-        displayname:''
+        displayName:''
     }
     handleUserChange = event => {
         this.setState({username: event.target.value});
@@ -21,7 +21,7 @@ export default class UserCreation extends Component{
     
     handleSubmit = async event => {
         event.preventDefault();
-        await biddrClient.createUser(this.state.username, this.state.displayname, this.state.password);
+        await biddrClient.createUser(this.state.username, this.state.displayName, this.state.password);
     }
 
     render(){
@@ -31,18 +31,19 @@ export default class UserCreation extends Component{
                 <div className="login-container">
                     <form onSubmit={this.handleSubmit} className="login-form">
                         <div className= "form-field">
-                        <label className="username"><span className="hidden">Username</span></label>
+                        <label className="username">Username</label>
                             <input type="text" name="name" onChange={this.handleUserChange} className= "form-login"
                             placeholder="Username" required/>
                         </div>
+                        
                         <div className="form form-field">
-                            <label className="lock" htmlFor="login-password"><span className="hidden">Password</span></label>
-                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-login" placeholder="Password" required/>
+                            <label className="display-name">Display Name</label>
+                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-login" placeholder="Display Name" required/>
                         </div>
 
                         <div className="form form-field">
-                            <label className="display-name"><span className="hidden">Display Name</span></label>
-                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-login" placeholder="Display Name" required/>
+                            <label className="lock" htmlFor="login-password">Password</label>
+                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-login" placeholder="Password" required/>
                         </div>
 
                         <div className="form-field">

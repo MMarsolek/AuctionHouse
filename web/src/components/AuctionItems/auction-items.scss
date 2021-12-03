@@ -1,0 +1,224 @@
+.addition-flex{
+    align-content:center;
+}
+
+.login-form{
+    align-content: center;
+}
+
+.specific-item-list{
+    margin: 0;
+    padding: 0;
+}
+
+.item-list{
+    border: 1px;
+    border-radius: 4px;
+    align-items: center;
+    background: linear-gradient(to top, rgb(40, 135, 190), rgb(27, 95, 143, 0.329)); /* Chrome 10-25, Safari 5.1-6 */
+    color: whitesmoke;
+    font-size: large;
+    min-width: 100vw;
+    width: 100vw;
+}
+
+
+.bid-amount{
+    size: 12px;
+    padding: 5px;
+    margin: 5px;
+    color: whitesmoke;
+    align-items: center;
+    max-width: fit-content;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
+}
+
+
+.items-list{
+    list-style-type: none;
+    padding: 20px;
+    margin: 20px;
+    margin-top: 0%;
+    border-radius: 4px;
+}
+.all-item-flex{
+    justify-self: right;
+}
+
+
+.bid-input{
+    display: flex;
+    flex-direction: row;
+   /*background: rgb(33, 85, 122); */
+    padding: 10px;
+    align-self: left;
+    justify-items: center;
+    justify-self: right;
+
+}
+
+.UpdateItemModal{
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+}
+
+.bid-placement {
+    color: black;
+    border-radius: 2px;
+    padding: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.unordered-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    margin: 5px;
+    background: rgba(33, 72, 99, 0.589);
+}
+
+.items-name{
+    padding: 10px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.items-description{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
+    flex: 1;
+    word-wrap: normal;
+    font-size: medium;
+    padding: 1rem;
+    transition: all 1s ease-in-out;
+
+
+}
+.items-image{
+    align-items: left;
+    padding: 1rem;
+
+}
+
+.description-and-image{
+    display: flex;
+    flex-direction: row-reverse;
+    background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
+    align-content: space-around;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+    border-radius: 4px;
+}
+
+.bid-button, .edit-item-button{
+    background-color: rgb(33, 85, 122);
+    color: whitesmoke;
+    text-decoration: none;
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    font-family: 'Work Sans', sans-serif;
+    align-self: center;
+    border-radius: 4px;
+    margin-left: 1rem;
+    border: none;
+}
+.bid-button:hover, .edit-item-button:hover{
+    color: rgb(33, 85, 122);
+    background-color: #4ad9e4;
+    text-decoration: none;
+    transition: all 500ms ease-in-out;
+
+}
+
+.button-container, .button{
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    align-self: flex-end;
+    float: right;
+    padding: 1rem;
+    transition: all 500ms ease-in-out;
+}
+
+
+.button:hover {
+    padding:  8px 20px;
+    background: white;
+    color: black;
+    transition: all 0.2s ease-out;
+}
+
+.button{
+    background-color: transparent;
+    color: white;
+    margin-left:1rem;
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: 1px solid var(--primary);
+    transition: all 0.3s ease-out;
+}
+
+.form-input{
+    margin: 5px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: medium;
+    border-radius: 4px;
+    text-align: justify;
+    flex: 1 0 auto;
+}
+
+
+.modal-open{
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10vh;
+
+
+}
+
+.modal-page{
+    background: linear-gradient(90deg, rgba(40, 135, 190), rgb(35,125, 190));
+    border-radius: 5px;
+    box-shadow: 0 1.5px 0 0 rgba(0,0,0);
+    flex-wrap: wrap;
+    width: 75vw;
+    padding: 5px;
+    margin-left: 0;
+    margin-right: 0%;
+}
+
+.image, .description{
+    padding: 5px;
+    color:rgb(18, 56, 83);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: bold;
+    align-self: center;
+
+}
+
+.items-name:hover, .name-is-clicked{
+    background-color: rgb(35,125, 190);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    transition: all 500ms ease-in-out;
+    font-size: larger;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 1;
+    box-sizing:border-box;
+}
+

@@ -1,6 +1,7 @@
 
 .NavbarItems {
-    /* background: linear-gradient(90deg, rgb(40, 135, 190) 0%, rgb(35,125, 190)100%); */
+    background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
+    
     height: 80px;
     display: flex;
     font-size: 1.2rem;
@@ -10,16 +11,14 @@
     justify-content: center;
     width: 100%;
     flex-wrap: nowrap;
-    min-width: 100vw;
-    width: 100vw;
+    min-width: 95vw;
+    width: 95vw;
 }
 
 .NavBarLogo{
     color: #ffffff;
     justify-self: flex-start;
     align-self: center;
-    margin-right: 20px;
-    cursor: pointer;
     padding-right: 10px;
     padding-bottom: 10px;
     padding-right: 10%;
@@ -37,7 +36,7 @@
     grid-template-columns:repeat(5, auto) ;
     list-style: none;
     text-align: center;
-    width: 100vw;
+    width: 95vw;
     justify-content: end;
     margin-right: 2rem;
 }
@@ -60,17 +59,29 @@
     color: white;
     text-decoration: none;
     align-self: flex-end;
-    /* justify-content: space-between; */
     padding: 0.5rem 1rem;
     font-family: 'Work Sans', sans-serif;
     align-self: center;
     border-radius: 4px;
-    margin: 1rem;
+    margin: left right bottom 1rem;
+    border: none;
+}
+
+.welcome-bar{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+.welcome{
+    color:whitesmoke;
+    font-size: medium;
+    margin: 5px;
 }
 
 .SignOutNavLinks:hover {
     background-color: #4ad9e4 ;
     border-radius: 4px;
+    border-color: none;
     transition: all 0.2s ease-out;
 }
 
@@ -90,7 +101,7 @@
     font-family: 'Work Sans', sans-serif;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 680px){
     .NavbarItems {
         position: relative;
     }
@@ -106,14 +117,13 @@
         transition: all .5s ease;
     }
     .NavMenu.active {
-        /* background: linear-gradient(90deg, rgb(40, 135, 190) 0%, rgb(35,125, 190)100%) ; */
         left: 0;
         padding: 0;
         opacity: 1;
         transition: all .5s ease;
         z-index: 1;
     }
-    .NavLinks{
+    .NavLinks, .welcome{
         text-align: center;
         background: linear-gradient(90deg, rgb(40, 135, 190) 100%, rgb(33, 85, 122)0%) ;
         padding: 1rem;
