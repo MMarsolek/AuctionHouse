@@ -18,8 +18,6 @@ body{
 
 
 .login-container{
-  
-  // color: whitesmoke;
   padding:25px 25px 0;
   margin: 20px 20px 0;	
   border-radius: 3px;
@@ -39,6 +37,11 @@ input {
   transition: background-color .3s;
 }
 
+.login-form{
+  justify-content: center;
+  align-content: space-between;
+}
+
 .logo{
   color: whitesmoke;
   font-size: 2rem;
@@ -48,7 +51,7 @@ input {
 }
 
 
-.login-flex{
+.login-flex {
 	background:rgba(58,63,68,0.5);
   border-radius: 5px;
   box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
@@ -57,6 +60,7 @@ input {
   justify-content: center;
   max-width: fit-content;
   margin: auto;
+  margin-top: 2rem;
 }
 
 .username:before,
@@ -69,6 +73,7 @@ input {
 
 .form input[type="password"], .form input[type="text"], .form input[type="submit"] {
   width: 100%;
+
 }
 
 .form-login label,
@@ -99,16 +104,22 @@ input {
 }
 .form-login input[type="submit"] {
   background-color: #00B9BC;
-  // color: black;
+  color: black;
   font-weight: bold;
   text-transform: uppercase;
 }
-.form-login input[type="submit"]:focus, .form-login input[type="submit"]:hover {
+.form-login input[type="submit"]:focus, 
+.form-login input[type="submit"]:hover {
   background-color: #197071;
+  
+
 }
 .form-field {
   display: flex;
   margin-bottom: 2rem;
+  justify-items: stretch;
+  align-items: center;
+
 }
 
 .hidden {
@@ -121,7 +132,39 @@ input {
   position: absolute;
   width: 1px;
 }
+.button-box{
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-content: center;
+}
+
+$main-color: whitesmoke;
+
+.create-button{
+  color: $main-color;
+  background-color: rgb(45, 120, 173);
+  text-decoration: none;
+  transition: all 500ms ease-in-out;
+  border-radius: 4px;
+  font-size: medium;
+  padding:  8px 20px;
+  margin: 1rem;
+}
+.create-button:hover {
+  background-color: rgb(35,125, 190) ;
+  color: $main-color;
+  transition: all 0.2s ease-out;
+  font-size: large;
+}
+
 
 .text--center {
   text-align: center;
+}
+.label{
+  color: whitesmoke;
+  font-size: small;
+  font-family: 'Work Sans', sans-serif;
+  align-items: center, flex-start;
 }

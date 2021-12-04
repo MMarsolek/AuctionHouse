@@ -1,6 +1,8 @@
 import biddrClient from '../../biddrClient/biddrClient'
 import { Component } from 'react';
 import '../UserSignIn/user-login';
+import '../UserSignIn/user-login.scss';
+
 
 export default class UserCreation extends Component{
     state = {
@@ -15,7 +17,7 @@ export default class UserCreation extends Component{
         this.setState({password: event.target.value});
     }
     handleDisplayChange = event => {
-        this.setState({displayname: event.target.value});
+        this.setState({displayName: event.target.value});
     }
     
     
@@ -29,25 +31,25 @@ export default class UserCreation extends Component{
             <div className="login-flex">
                 <div className= "logo" > User Creation</div>
                 <div className="login-container">
-                    <form onSubmit={this.handleSubmit} className="login-form">
-                        <div className= "form-field">
-                        <label className="username">Username</label>
-                            <input type="text" name="name" onChange={this.handleUserChange} className= "form-login"
+                    <form onClick={this.handleSubmit} className="login-form">
+                        <div className= "name form-field">
+                        <label className="label">Username</label>
+                            <input type="text" name="name" onChange={this.handleUserChange} className= "form-input"
                             placeholder="Username" required/>
                         </div>
                         
-                        <div className="form form-field">
-                            <label className="display-name">Display Name</label>
-                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-login" placeholder="Display Name" required/>
+                        <div className="name form-field">
+                            <label className="label">Display Name</label>
+                            <input id="display-name" type="name"  onChange={this.handleDisplayChange} className="form-input" placeholder="Display Name" required/>
                         </div>
 
-                        <div className="form form-field">
-                            <label className="lock" htmlFor="login-password">Password</label>
-                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-login" placeholder="Password" required/>
+                        <div className="password form-field">
+                            <label className="label" htmlFor="login-password">Password</label>
+                            <input id="password" type="password"  onChange={this.handlePassChange} className="form-input" placeholder="Password" required/>
                         </div>
 
-                        <div className="form-field">
-                            <input type="submit" value="Create User"/>
+                        <div className="button-box" >
+                            <input type="button" value="Create User" className="create-button"/>
                         </div>
                     </form>
                 </div>

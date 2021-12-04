@@ -34,24 +34,24 @@ export default withNotifications(class AddItems extends Component{
             <div className = "login-flex">
                 <div className="logo"> Create Item</div>
                 <div className="login-container">
-                <form onSubmit={this.handleSubmit} className="login-form">
-                        <div className="description form-field">
-                        <label className="description">Description</label>
+                <form onClick={this.handleSubmit} className="login-form">
+                        <div className="name form-field">
+                        <label className="label">Description</label>
                             <input type="text" name="name" onChange={this.handleDescriptionChange} className="form-input"
                             placeholder="Description" />
                         </div>
 
-                        <div className="image form-field">
-                            <label className="image">Image Link</label>
+                        <div className="name form-field">
+                            <label className="label">Image Link</label>
                             <input type="text"  onChange={this.handleImageChange} className="form-input" placeholder="Image Link" />
                         </div>
 
                         <div className="name form-field">
-                            <label className="item-name">Name</label>
+                            <label className="label">Name</label>
                             <input type="text" name="name" onChange={this.handleNameChange} className="form-input" placeholder="Item Name" required/>
                         </div>
-                        <div className="form-field">
-                            <input type="submit" value="Add Item"/>
+                        <div className="button-box">
+                            <input type="button" value="Add Item"className="create-button"/>
                         </div>
                     </form>
                 </div>

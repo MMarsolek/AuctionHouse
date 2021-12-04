@@ -33,19 +33,19 @@ import './user-login.scss'
                 { this.context.user && <Navigate to="/auctions" replace={true} />}
                 <div className= "logo" >AuctionHouse Log In</div>
                 <div className="login-container">
-                    <form onSubmit={this.handleSubmit} className="login-form">
+                    <form onClick={this.handleSubmit} className="login-form">
                         <div className= "form-field">
                         <label className="username"><span className="hidden">Username</span></label>
                             <input type="text" name="name" onChange={this.handleUserChange} className= "form-input"
                             placeholder="Username" required/>
                         </div>
-                        <div className="form form-field">
+                        <div className="form-field">
                             <label className="lock" htmlFor="login-password"><span className="hidden">Password</span></label>
                             <input id="login-password" type="password"  onChange={this.handlePassChange} className="form-input" placeholder="Password" required/>
                         </div>
 
-                        <div className="form-field">
-                            <input type="submit" value="Log in"/>
+                        <div className="button-box">
+                            <input type="button" value="Log in"className="create-button"/>
                         </div>
                     </form>
                 </div>

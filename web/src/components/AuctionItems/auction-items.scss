@@ -18,8 +18,8 @@
     background: linear-gradient(to top, rgb(40, 135, 190), rgb(27, 95, 143, 0.329)); /* Chrome 10-25, Safari 5.1-6 */
     color: whitesmoke;
     font-size: large;
-    min-width: 100vw;
-    width: 100vw;
+    min-width: 95vw;
+    width: 95vw;
 }
 
 
@@ -118,6 +118,7 @@ input::-webkit-inner-spin-button {
     margin-bottom: 1rem;
     overflow: auto;
     border-radius: 4px;
+    
 }
 
 .bid-button, .edit-item-button{
@@ -151,7 +152,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.button:hover {
+.button:hover{
     padding:  8px 20px;
     background: white;
     color: black;

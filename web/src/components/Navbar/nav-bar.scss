@@ -5,26 +5,23 @@
     height: 80px;
     display: flex;
     font-size: 1.2rem;
-    padding: 10px;
     font-family: 'Work Sans', sans-serif;
     align-items: baseline;
     justify-content: center;
     width: 100%;
     flex-wrap: nowrap;
-    min-width: 95vw;
-    width: 95vw;
+    min-width: 100vw;
+    width: 100vw;
 }
 
 .NavBarLogo{
     color: #ffffff;
     justify-self: flex-start;
-    align-self: center;
-    padding-right: 10px;
-    padding-bottom: 10px;
+    align-content: center;
+    padding-left: 1rem;
     padding-right: 10%;
-    flex-grow: 1;
-    padding: 10px;
-    
+    padding-left: 2rem;
+    flex-grow: 1;    
 }
 
 .fa-store{
@@ -63,7 +60,7 @@
     font-family: 'Work Sans', sans-serif;
     align-self: center;
     border-radius: 4px;
-    margin: left right bottom 1rem;
+    margin: left right bottom 1.5rem;
     border: none;
 }
 
@@ -76,6 +73,7 @@
     color:whitesmoke;
     font-size: medium;
     margin: 5px;
+    padding-right: 1rem;
 }
 
 .SignOutNavLinks:hover {
