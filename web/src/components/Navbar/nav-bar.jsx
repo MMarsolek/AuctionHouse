@@ -4,6 +4,7 @@ import { AuthContext } from '../../auth-provider';
 import { withRoutingFields } from '../../utils';
 import "./nav-bar.scss"
 
+
 class Navbar extends Component {
     static contextType = AuthContext;
     state = { 

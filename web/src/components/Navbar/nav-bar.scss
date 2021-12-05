@@ -1,11 +1,10 @@
+@use '../../vars.scss' as *;
 
 .NavbarItems {
     background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
-    
     height: 80px;
     display: flex;
     font-size: 1.2rem;
-    font-family: 'Work Sans', sans-serif;
     align-items: baseline;
     justify-content: center;
     width: 100%;
@@ -15,17 +14,12 @@
 }
 
 .NavBarLogo{
-    color: #ffffff;
     justify-self: flex-start;
     align-content: center;
     padding-left: 1rem;
     padding-right: 10%;
     padding-left: 2rem;
     flex-grow: 1;    
-}
-
-.fa-store{
-    color: white;
 }
 
 .NavMenu {
@@ -40,24 +34,21 @@
 
 
 .NavLinks{
-    color: white;
     text-decoration: none;
     justify-self: flex-end;
-    /* justify-content: space-between; */
     padding: 0.5rem 1rem;
-    font-family: 'Work Sans', sans-serif;
     align-items: right;
     margin: 1rem;
+    color: $main-text-color;
     
 }
 
 .SignOutNavLinks {
-    background-color: rgb(33, 85, 122);
-    color: white;
+    background-color: $dark-background;
+    color: $main-text-color;
     text-decoration: none;
     align-self: flex-end;
     padding: 0.5rem 1rem;
-    font-family: 'Work Sans', sans-serif;
     align-self: center;
     border-radius: 4px;
     margin: left right bottom 1.5rem;
@@ -70,7 +61,6 @@
     align-self: center;
 }
 .welcome{
-    color:whitesmoke;
     font-size: medium;
     margin: 5px;
     padding-right: 1rem;
@@ -90,13 +80,11 @@
 }
 
 .MenuIcon{
-    color: white;
     display: none;
 }
 
 .NavLinksMobile{
     display: none;
-    font-family: 'Work Sans', sans-serif;
 }
 
 @media screen and (max-width: 680px){
@@ -123,7 +111,7 @@
     }
     .NavLinks, .welcome{
         text-align: center;
-        background: linear-gradient(90deg, rgb(40, 135, 190) 100%, rgb(33, 85, 122)0%) ;
+        background: linear-gradient(90deg, rgb(40, 135, 190) 100%, $dark-background) ;
         padding: 1rem;
         width: 100%;
         display: table;
@@ -160,12 +148,11 @@
         width: 80%;
         background: #4ad9e4;
         text-decoration: none;
-        color: white;
         font-size: 1.5rem;
     }
 
     .NavLinksMobile:hover{
-        background: white;
+        background: $main-text-color;
         color: rgb(35,125, 190);
         transition: 250ms;
     }

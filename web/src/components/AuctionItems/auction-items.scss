@@ -1,22 +1,24 @@
-.addition-flex{
+@use '../../vars.scss' as *;
+
+
+.addition-flex, .login-form, .modal-open{
     align-content:center;
 }
 
-.login-form{
-    align-content: center;
+.items-name:hover, .name-is-clicked, .modal-page, .form-input, .button, .description-and-image, .unordered-list, .items-list, .bid-amount, .bid-button, .edit-item-button, .items-list{
+    border-radius: 4px;
 }
+
 
 .specific-item-list{
     margin: 0;
     padding: 0;
 }
 
-.item-list{
+.items-list{
     border: 1px;
-    border-radius: 4px;
     align-items: center;
     background: linear-gradient(to top, rgb(40, 135, 190), rgb(27, 95, 143, 0.329)); /* Chrome 10-25, Safari 5.1-6 */
-    color: whitesmoke;
     font-size: large;
     min-width: 95vw;
     width: 95vw;
@@ -27,10 +29,8 @@
     size: 12px;
     padding: 5px;
     margin: 5px;
-    color: whitesmoke;
     align-items: center;
     max-width: fit-content;
-    border-radius: 4px;
     background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
 }
 
@@ -40,9 +40,8 @@
     padding: 20px;
     margin: 20px;
     margin-top: 0%;
-    border-radius: 4px;
 }
-.all-item-flex{
+.all-item-flex, .bid-input{
     justify-self: right;
 }
 
@@ -50,12 +49,9 @@
 .bid-input{
     display: flex;
     flex-direction: row;
-   /*background: rgb(33, 85, 122); */
     padding: 10px;
     align-self: left;
     justify-items: center;
-    justify-self: right;
-
 }
 
 .UpdateItemModal{
@@ -80,7 +76,6 @@ input::-webkit-inner-spin-button {
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    border-radius: 4px;
     margin: 5px;
     background: rgba(33, 72, 99, 0.589);
 }
@@ -109,32 +104,29 @@ input::-webkit-inner-spin-button {
 
 }
 
-.description-and-image{
+ .description-and-image
+    {
     display: flex;
     flex-direction: row-reverse;
     background: linear-gradient(90deg, rgba(40, 135, 190, 0.404) 0%, rgb(35,125, 190)50%);
     align-content: space-around;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    overflow: auto;
-    border-radius: 4px;
-    
+    overflow: auto;    
 }
 
 .bid-button, .edit-item-button{
     background-color: rgb(33, 85, 122);
-    color: whitesmoke;
     text-decoration: none;
     align-self: flex-end;
     padding: 0.5rem 1rem;
-    font-family: 'Work Sans', sans-serif;
     align-self: center;
-    border-radius: 4px;
     margin-left: 1rem;
     border: none;
+    color: $main-text-color;
 }
 .bid-button:hover, .edit-item-button:hover{
-    color: rgb(33, 85, 122);
+    color: $dark-background;
     background-color: #4ad9e4;
     text-decoration: none;
     transition: all 500ms ease-in-out;
@@ -154,45 +146,38 @@ input::-webkit-inner-spin-button {
 
 .button:hover{
     padding:  8px 20px;
-    background: white;
+    background: $main-text-color;
     color: black;
     transition: all 0.2s ease-out;
 }
 
 .button{
     background-color: transparent;
-    color: white;
     margin-left:1rem;
     padding: 8px 20px;
-    border-radius: 4px;
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
+    
 }
 
-.form-input{
+.form-input {
     margin: 5px;
     font-family: 'Work Sans', sans-serif;
     font-size: medium;
-    border-radius: 4px;
     text-align: justify;
     flex: 1 0 auto;
 }
 
 
 .modal-open{
-
     display: flex;
-    align-content: center;
     justify-content: center;
     margin: auto;
     margin-top: 10vh;
-
-
 }
 
 .modal-page{
     background: linear-gradient(90deg, rgba(40, 135, 190), rgb(35,125, 190));
-    border-radius: 5px;
     box-shadow: 0 1.5px 0 0 rgba(0,0,0);
     flex-wrap: wrap;
     width: 75vw;
@@ -204,7 +189,6 @@ input::-webkit-inner-spin-button {
 .image, .description{
     padding: 5px;
     color:rgb(18, 56, 83);
-    font-family: 'Work Sans', sans-serif;
     font-weight: bold;
     align-self: center;
 
@@ -217,9 +201,7 @@ input::-webkit-inner-spin-button {
     transition: all 500ms ease-in-out;
     font-size: larger;
     cursor: pointer;
-    border-radius: 4px;
     padding: 5px;
-    z-index: 1;
     box-sizing:border-box;
 }
 

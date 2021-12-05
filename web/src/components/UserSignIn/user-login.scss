@@ -1,11 +1,16 @@
+
+@use '../../vars.scss' as *;
+
+
+
 body{
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100%;
   font-family: 'Work Sans', sans-serif;
-  background: rgb(35, 125, 190);
-  background: linear-gradient(to top, rgb(33, 85, 122), rgb(35, 125, 190)) fixed; /* Chrome 10-25, Safari 5.1-6 */
+  background: $light-main;
+  background: $main-background;
   background-repeat:no-repeat;
   margin-bottom: 50px;
   margin-left: 1rem;
@@ -14,8 +19,8 @@ body{
   overflow-x: hidden;
   min-width: 95vw;
   width: 95vw;
+  color: $main-text-color;
 }
-
 
 .login-container{
   padding:25px 25px 0;
@@ -43,7 +48,6 @@ input {
 }
 
 .logo{
-  color: whitesmoke;
   font-size: 2rem;
   text-align: center;
   padding: 20px 20px 0;
@@ -66,8 +70,7 @@ input {
 .username:before,
 .lock:before {
   font-size: 14;
-  font-family: 'Work Sans', sans-serif;
-	color: #000000;
+	color: black;
 }
 
 
@@ -82,12 +85,12 @@ input {
 .form-login input[type="submit"] {
   border-radius: 0.25rem;
   padding: 1rem;
-  color: #000000; 
+  color: black; 
   border-radius: 4px; 
 }
 
 .form-login label {
-  background-color: #222222;
+  background-color: black;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
   padding-left: 1.25rem;
@@ -95,12 +98,12 @@ input {
 }
 
 .form-login input[type="text"], .form-login input[type="password"] {
-  background-color: #ffffff;
+  background-color: whitesmoke;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
 .form-login input[type="text"]:focus, .form-login input[type="text"]:hover, .form-login input[type="password"]:focus, .form-login input[type="password"]:hover {
-  background-color: #eeeeee;
+  background-color: whitesmoke;
 }
 .form-login input[type="submit"] {
   background-color: #00B9BC;
@@ -139,10 +142,7 @@ input {
   align-content: center;
 }
 
-$main-color: whitesmoke;
-
 .create-button{
-  color: $main-color;
   background-color: rgb(45, 120, 173);
   text-decoration: none;
   transition: all 500ms ease-in-out;
@@ -153,7 +153,6 @@ $main-color: whitesmoke;
 }
 .create-button:hover {
   background-color: rgb(35,125, 190) ;
-  color: $main-color;
   transition: all 0.2s ease-out;
   font-size: large;
 }
@@ -163,8 +162,6 @@ $main-color: whitesmoke;
   text-align: center;
 }
 .label{
-  color: whitesmoke;
   font-size: small;
-  font-family: 'Work Sans', sans-serif;
   align-items: center, flex-start;
 }

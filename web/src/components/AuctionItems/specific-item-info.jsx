@@ -6,6 +6,7 @@ import { AuthContext } from '../../auth-provider';
 import { withNotifications } from '../../utils';
 import './auction-items.scss';
 
+
 const UpdateItemModal = withNotifications(class UpdateItemModal extends Component {
     state = {
         description: '',
