@@ -64,7 +64,7 @@ func NewHandler(
 
 // RegisterRoutes registers the routes to establish a websocket connection.
 func (handler *Handler) RegisterRoutes(rootRouter *mux.Router) {
-	wsRouter := rootRouter.PathPrefix("/ws").Subrouter()
+	wsRouter := rootRouter.PathPrefix("/v1/ws").Subrouter()
 	wsRouter.Use(middleware.VerifyAuthToken)
 
 	wsRouter.HandleFunc("", handler.ServeWS).Methods(http.MethodGet)

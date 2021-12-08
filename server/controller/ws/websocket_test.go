@@ -280,5 +280,5 @@ func (ts *handlerTestSuite) createWebsocket() *websocket.Conn {
 }
 
 func (ts *handlerTestSuite) serverURL() string {
-	return fmt.Sprintf("ws://%s/api/ws", strings.TrimPrefix(ts.server.URL, "http://"))
+	return fmt.Sprintf("ws://%s/api/v1/ws", strings.TrimPrefix(ts.server.URL, "http://"))
 }
